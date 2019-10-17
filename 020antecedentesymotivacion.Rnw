@@ -1,0 +1,113 @@
+% !Rnw root = 000proyecto.Rnw
+
+\newpage
+
+\chapter{Antecedentes y Motivación}
+
+\section{Antecedentes}
+
+Nuestra racionalidad es fascinante y enigmática y ha sido objeto de estudio por diversas disciplinas, tanto las médicas como las tecnológicas. Nuestra forma de razonar, el pensamiento, los procesos mentales y nuestros comportamientos generan interés desde el punto de vista de la tecnología y el gran objetivo es automatizar actividades imitando estos procesos. El objetivo, además de entender la inteligencia, es adicionalmente construir entidades inteligentes \cite{russell-norvig}.
+
+La Inteligencia Artificial como campo de estudio está compuesto por una gran variedad de disciplinas que van desde las generales como el aprendizaje y la percepción hasta las más específicas como jugar ajedrez o Go y manejar un carro de forma autónoma \cite{russell-norvig}.
+
+Dentro de las capacidades que deben manifestarse para mostrar inteligencia podemos contar con:
+\begin{itemize}
+\item Procesamiento del Lenguage Natural (NLP): Consiste en comunicarse en un idioma.
+\item Representación del Conocimiento: Almacenar lo que se conoce o se escucha.
+\item Razonamiento automatizado: Responder preguntas e inferir basado en el conocimiento adquirido.
+\item Aprendizaje automatizado: Adaptarse a nuevos datos, detectar patrones e inferir.
+\item Visión automatizada: Percibir objetos e identificarlos
+\item Robótica: Manipular objetos.
+\end{itemize}
+
+Estas capacidades surgen de la prueba definida por Alan Turing (1950) donde se realizan una serie de preguntas y basado en las respuestas, el que interroga no puede decidir si las respuestas provienen de una persona o una computadora.
+
+De todas estas capacidades vamos a enfocarnos en el aprendizaje automatizado, también conocido como Machine Learning. Esta capacidad nos genera gran interés ya que a partir de ella, y sus métodos, se pueden desarrollar otras capacidades.
+
+El aprendizaje automatizado consiste en una serie de modelos, técnicas y algoritmos que parten de los datos y sobre estos se identifican características y patrones que permiten inferir. El problema fundamental es encontrar el balance adecuado entre el sesgo y el error.
+
+El estudio de los métodos de aprendizaje estadístico en la academia se centra en su entendimiento teórico y los aspectos técnicos mediante herramientas didácticas.
+Este trabajo se realiza con la idea de abonar en el terreno de la construcción de aplicaciones con datos reales a través de las plataformas y servicios de uno de los grandes proveedores de tecnología. La idea es que los métodos explorados, estudiados y aplicados queden documentados para que otros puedan utilizar en aplicaciones y soluciones para la industria, sobre la infraestructura de Amazon. Partiendo de estos modelos, su uso y aplicación, podemos entender los límites y al mismo tiempo las líneas de investigación que se pueden seguir para avanzar en este terreno.
+
+En nuestra investigación documental hemos hallado cuatro grandes corrientes de desarrollo de la investigación sobre los métodos de aprendizaje estadístico, tanto supervisados como no supervisados, entre ellos:
+\begin{itemize}
+\item Métodos de aprendizaje estadístico supervisados basados en regresión, clasificación, máquinas de soporte vectorial y no supervisados como agrupamiento, componentes principales, ranking, bosques aleatorios, entre otros.
+\item Redes Neuronales
+\item Aprendizaje reforzado (Reinforcement Learning)
+\item Aprendizaje bayesiano
+\end{itemize}
+
+Este trabajo se enfocará en los dos primeros. En primer término en los métodos de aprendizaje estadístico y sus metodologías como introducción al segundo modelo que aunque inspirado en el cerebro humano, sus métodos siguen los patrones de ajuste de parámetros y optimización desarrollados en los primeros. Se prestará especial énfasis a las Redes Neuronales y sus métodos en detalle hasta el desarrollo de las Redes Neuronales Convolucionales.
+
+\subsection{Redes Neuronales}
+
+Las Redes Neuronales son un modelo computacional y matemático de las neuronas biológicas. Este modelo se inspira en el funcionamiento del cerebro humano y consiste en construir arquitecturas de neuronas conectadas que se entrenan con datos y resultados conocidos, para identificar patrones.
+
+En \cite{mccullochpitts} McCulloch y Pitts en 1943 inician el estudio de las Redes Neuronales donde presentan un modelo computacional de cómo las neuronas pueden trabajar en conjunto para realizar cálculos complejos utilizando lógica proposicional. Esta fué la primera arquitectura.
+
+En 1957 Frank Rosemblatt en \cite{rosemblatt}, desarrolla el perceptrón simple que consiste en una red de una sola neurona. Una neurona recibe el estímulo de otras neuronas que pueden activar o no a la neurona receptora que integra todos los estímulos o impulsos recibidos de otras neuronas. Si los impulsos integrados generan un valor mayor a cierto umbral entonces la neurona se activa.
+
+El modelo original recibe una entrada binaria y la integración de las entradas se realiza mediante la suma ponderada de las entradas. Este modelo sirvió como referencia para resolver problemas de clasificación lineal. La principal limitación del modelo es su incapacidad para resolver problemas de regresión con datos que no son linealmente separables. Este modelo es la base de los modelos de Redes Neuronales actuales.
+
+\begin{figure}[h]
+  \scalebox{1.3}{\includegraphics{img/timeline.png}}
+\caption{Progresión de avances en Redes Neuronales}
+\label{timeline}
+\end{figure}
+
+El estudio de las Redes Neuronales no es nuevo, son muchos los aportes de diversos investigadores como Turing, Werbos, Fukushima, Hinton, LeCun, Bengio, Goodfellow entre otros. En la imagen \ref{timeline} se puede ver el progreso gradual que ha tenido el área durante los últimos 80 años.
+
+El descubrimiento de nuevas arquitecturas y avances en los métodos y definición de las Redes Neuronales así como la creciente capacidad de cómputo han generado un grán avance en los últimos 7 años. Entre ellos la popularización de las Redes Neuronales Convolucionales.
+
+\subsection{Redes Neuronales Convolucionales}
+
+En \cite{scalinglearning} LeCun y Bengio indican que una pregunta esencial cuando se diseñan arquitecturas de aprendizaje es cómo representar la invarianza. Las propiedades de la invarianza son cruciales para cualquier método de aprendizaje, en particular en el reconocimiento de patrones visuales.
+
+En el mismo artículo definen las Redes Neuronales Convolucionales como arquitecturas multicapa en las cuales las capas sucesivas están diseñadas para extraer, aprender progresivamente características más complejas, hasta alcanzar la última capa que representa las categorías. Todas las capas se entrenan simultáneamente con el objetivo de minimizar la función de pérdida. A diferencia de la mayoría de los modelos de clasificación y reconocimiento de patrones, la extracción de características y la clasificación ocurren en la misma red. Todas las capas son similares en naturaleza y se entrenan a partir de los datos de forma integrada.
+
+Un módulo básico de la Red Convolucional se compone de una Capa de extracción de características o Convolución, seguido de una Capa de Sub muestraje. Una Red Convolucional típica está compuesta por uno, dos o tres de estos modulos integrados en serie y seguidos de un módulo de clasificación.
+
+Las entradas y salidas de cada capa se pueden ver como matrices de dos dimensiones denominados mapas de características que se generan a partir de la aplicación de una operación de convolución que utiliza un campo de recepción denominado kernel. La definición y uso de los kernel se inspiran en las investigaciones de Hubel y Wiesel.
+
+Hubel y Wiesel en \cite{hubelwiesel} estudian las propiedades de las neuronas en la corteza visual de los gatos, tomando registros de las células en gatos ligeramente anestesiados. Las retinas de los gatos fueron estimuladas individualmente o simultáneamente con puntos de luz de varios tamaños y formas. El análisis de dichos registros permiten identificar células que se activan y responden a estímulos específicos como barras horizontales o verticales de forma excluyente. Cada neurona es responsable por una región pequeña del campo visual y se activan a estímulos localizados en esas regiones. El campo visual de las neuronas se pueden solapar para componer todo el campo visual. También notaron que algunas neuronas tienen un campo visual mayor y se activan con estímulos más complejos que son la combinación de estímulos más simples.
+
+Estas observaciones sugieren que las neuronas con un mayor campo visual reciben información de las neuronas de menor campo visual. Esta arquitectura es la que se ha utilizado como base para construir un modelo de Redes Convolucionales que es capaz de identificar patrones en imágenes. En el artículo \cite{lecun-98} se presenta el trabajo de Yann LeCun, Léon Bottou, Yoshua Bengio y Patrick Haffner, que será fundamental para el desarrollo futuro de dichas redes.
+
+\section{Motivación}
+
+El Aprendizaje estadístico (Machine Learning) es una rama de la Inteligencia Artificial y dentro de la misma encontramos los algoritmos de Aprendizaje Profundo que se basan en la construcción de Redes Neuronales con varias capas ocultas. En este trabajo serán de particular interés las Redes Neuronales Convolucionales\cite{Goodfellow-et-al-2016} que han surgido recientemente para resolver problemas de identificación de objetos y patrones visuales en imágenes, de esta manera se logra la identificación y clasificación de los mismos. Dos prominentes ejemplos de el uso de este tipo de algoritmos es el servicio de Alexa de Amazon para reconocimiento de voz y también el reconocimiento de patrones visuales en imágenes desarrollado por Google o Facebook.
+
+Los algoritmos de Aprendizaje estadísticos han ganado mucha popularidad ya que se han producido dos hechos fundamentales:
+\begin{itemize}
+\item Las empresas y proveedores de servicios en internet utilizan los métodos de Aprendizaje estadístico para explotar su negocio con modelos basados en los datos.
+\item La capacidad de procesamiento mediante las unidades de procesamiento gráficos (GPU) y el almacenamiento han crecido y están disponibles a bajo costo.
+\end{itemize}
+
+En este sentido es posible, para cualquier empresa que tenga la disciplina de recolectar sus datos, inferir y clasificar información sobre los clientes, que permite desarrollar estrategias comerciales más enfocadas, personalizadas, flexibles y adaptables a los hábitos y usos de los productos y servicios de los clientes.
+
+Amazon desde sus inicios empezó con su portal de comercio electrónico para comercializar libros y desde su inicio realiza recomendaciones basadas en las búsquedas, listas de deseo y compras que los clientes realizan desde la página web. Estas técnicas y la infraestructura construida por Amazon se ofrece como servicio a través de Amazon Web Servicios (AWS). Otras empresas, grandes como Amazon, han seguido sus pasos en la oferta de infraestructura en la nube como, Microsoft, Google e IBM.
+
+El entendimiento de una de las plataformas más importantes de servicios en la nube abona en la dirección de entender el resto de los proveedores con una referencia sólida, basada en el uso de AWS, que es \href{https://www.cnbc.com/2018/04/27/microsoft-gains-cloud-market-share-in-q1-but-aws-still-dominates.html}{la plataforma en la nube de uso más extendido en la industria}.
+
+Entre los servicios que se pueden implementar en la infraestructura AWS de Amazon se encuentran, SageMaker y Apache \textbf{MxNet}.
+
+Amazon SageMaker es un servicio de aprendizaje estadístico completamente gestionado. Con este los científicos de datos y desarrolladores pueden construir y entrenar modelos de aprendizaje e implementarlos en ambientes preparados para dar servicios en producción en la nube.
+
+\section{Objetivos}
+
+\subsection{Objetivos Generales}
+\begin{itemize}
+\item Estudiar y aplicar los algoritmos de aprendizaje estadístico provistos por Amazon  y desarrollar una metodología de trabajo para ofrecer servicios a través de AWS utilizando los \href{https://keras.io/datasets/}{bancos de imágenes MNIST y CIFAR}.
+\item Explorar AWS DeepLens como plataforma didáctica para la aplicación de los algoritmos de aprendizaje en el campo del reconocimiento visual de patrones mediante Redes Neuronales Convolucionales.
+\end{itemize}
+
+\subsection{Objetivos Específicos}
+\begin{itemize}
+\item Estudiar y explorar los servicios provistos por Amazon a través de su plataforma AWS y repasar de forma general todos los servicios de aprendizaje estadísticos provistos.
+\item Explorar los algoritmos provistos por Amazon SageMaker: Linear Learner, Factorization Machines, XGBoost Algorithmm, Image Classification Algorithm, Sequence2Sequence, K-Means Algorithm, Principal Component Analysis (PCA), Latent Dirichlet Allocation (LDA), Neural Topic Model (NTM), DeepAR Forecasting, BlazingText y Random Cut Forest. Entender las características teóricas y modelos subyacentes, así como las referencias principales.
+\item Especificar los pasos y métodos necesarios para aplicar los algoritmos de aprendizaje con ejemplos didácticos. Realizar consideraciones prácticas para la implementación de servicios mediante AWS.
+\item Activar y Configurar AWS DeepLens.
+\item Explorar los casos de uso y métodos de ejemplo con enfoque didáctico.
+\item Aplicar algoritmos provistos por Amazon SageMaker para el reconocimiento de patrones.
+\item Especificar las actividades y pasos necesarios para la aplicación de algoritmos de aprendizaje o inferencia própios o de terceros en Amazon SageMaker.
+\end{itemize}

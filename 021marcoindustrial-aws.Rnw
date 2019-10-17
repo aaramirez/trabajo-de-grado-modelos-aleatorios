@@ -1,0 +1,427 @@
+% !Rnw root = 000proyecto.Rnw
+
+<<echo=FALSE>>=
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(gridExtra)
+@
+
+
+\newpage
+
+\chapter{Marco industrial}
+
+\section{Amazon Web Services (AWS)}
+Vamos a estudiar y explorar los servicios provistos por Amazon a través de su plataforma AWS y repasar de forma general todos los servicios provistos.
+
+El reto de muchos científicos de datos, una vez desarrollado y probado un modelo matemático, es su publicación y uso en aplicaciones reales. Amazon ha desarrollado múltiples componentes, servicios y soluciones que permite llevar el modelo a un ambiente donde puede ser utilizado por otras aplicaciones. Los modelos se pueden entrenar y publicar como un servicio, lo cual permite que sea utilizado por las aplicaciones y generar una solución que se puede integrar como componente a otras aplicaciones.
+
+A continuación vamos a realizar un repaso de los servicios provistos por Amazon desde el punto de vista de la Infraestructura, Inteligencia Artificial y Modelos de Aprendizaje.
+
+\subsection{Servicios de AWS}
+Amazon es un proveedor de Infraestructura en la Nube como Servicio (IaaS). Ofrece servicios de almacenamiento estructurado o no estructurado y capacidad de cómputo.
+
+\subsubsection{\href{https://aws.amazon.com/es/comprehend/}{Almacenamiento}}
+Son varias las \href{https://aws.amazon.com/es/products/storage/}{soluciones de almacenamiento} de archivos y con diversos propósitos. Los dos usos más importantes son el almacenamiento de archivos y el almacenamiento en Bases de Datos.
+\begin{itemize}
+\item \href{https://aws.amazon.com/es/s3/}{Amazon S3 (Amazon Simple Storage Service)}, es el servicio de almacenamiento de objetos como por ejemplo: archivos para aplicaciones móviles o web, respaldo, copias de seguridad o restauración. Se puede controlar el acceso a los archivos, es escalable de acuerdo a las necesidades, de alta disponibilidad, seguro y alto rendimiento.
+\item \href{https://aws.amazon.com/es/free/databases-free-tier/}{Bases de datos}. En Amazon se ofrecen diversas opciones de almacenamiento en Bases de datos relacionales y no relacionales. Dentro de las no relacionales se destaca \href{https://aws.amazon.com/es/dynamodb/}{Amazon DynamoDB}, que ofrece una opción de almacenamiento no relacional clave-valor útil para aplicaciones Web, almacenamiento de configuraciones, etc, y por otra parte se ofrece el acceso a \href{https://aws.amazon.com/es/rds/}{Amazon RDS} que provee el acceso al almacenamiento en bases de datos relacionales como MySQL, PostgreSQL, Aurora, MariaDB, Oracle y SQL Server. Por otra parte se ofrece el almacenamiento de grandes cantidades de datos y gran desempeño \href{https://aws.amazon.com/es/redshift/}{Amazon RedShift} y por último el servicio de almacenamiento temporal en la nube a través de \href{https://aws.amazon.com/es/elasticache/}{Amazon ElastiCache}.
+\end{itemize}
+
+\subsubsection{\href{https://aws.amazon.com/es/ec2/}{Capacidad de Cómputo}}
+El servicio de Computación Elástica de Amazon se denomina \href{https://aws.amazon.com/es/ec2/}{Amazon EC2} y ofrece capacidad de cómputo basada en CPU o en GPU, además de memoría dinámica (RAM) elástica. Son diversas las opciones y tamaños, además de las versiones optimizadas para procesamiento normal o acelerado o instancias intensivas en memoria o almacenamiento. Dependiendo de los requerimientos de la aplicación que se desea subir a la nube se pueden escoger las características de procesamiento más idoneas.
+
+Dentro de los servicios más importantes podemos contar con:
+\begin{itemize}
+\item GPU, para acelerar el cálculo complejo y bajar los tiempos de entrenamiento. Se utilizan diversas opciones como:
+\begin{itemize}
+\item GPU NVIDIA Tesla V100.
+\item GPU NVIDIA Tensor Core V100.
+\item GPU NVIDIA K80.
+\item GPU NVIDIA Tesla M60.
+\end{itemize}
+
+\item Elastic Inference, es la opción para agregar aceleración mediante el uso de GPU en Amazon SageMaker para reducir costos y tiempo de entrenamiento mediante los ambientes de trabajo de aprendizaje.
+
+En la fase de entrenamiento es útil contar con procesadores gráficos (GPU) para acelerar el proceso de estimación y ajuste de los modelos. Luego que se logra un modelo entrenado entonces sólo se realizan ciclos de estimación o inferencia que no requieren la capacidad completa del GPU. Es por ello que es útil proporcionar capacidad de procesamiento a través del GPU de forma elástica. Amazon permite agregar la cantidad de procesamiento por GPU requerida por la aplicación para evitar recursos subutilizados y costos innecesarios.
+
+\item AWS Inferentia, es el chip especializado en aprendizaje, que pronto estará disponible, para realizar inferencias en modelos realizados en los ambientes de trabajo de aprendizaje como \textbf{TensorFlow}, Apache \textbf{MxNet} y \textbf{PyTorch}. Es un chip especializado para las aplicaciones que requieren mucha capacidad y baja latencia para realizar inferencias.
+
+\item \href{https://aws.amazon.com/es/ec2/instance-types/}{CPU}, con gran capacidad y diversas características para optimizar el cálculo para aplicar cifrado de datos, cálculos con números reales y aceleración para Aprendizaje Profundo. En las distintas opciones se utilizan los procesadores siguientes:
+\begin{itemize}
+\item AMD EPYC 7000 de 2,5 GHz.
+\item Intel Xeon personalizados de segunda generación con escala ajustable (Cascade Lake) con una frecuencia Turbo estable en todos los núcleos de 3,6 GHz y una frecuencia Turbo de núcleo individual hasta 3,9 GHz.
+\item Intel Xeon de segunda generación con escala ajustable (Cascade Lake) o en un procesador Intel Xeon Platinum serie 8000 (Skylake-SP) de primera generación con una frecuencia Turbo estable en todos los núcleos de 3,4 GHz y una frecuencia Turbo de núcleo individual hasta 3,5 GHz.
+\item Intel Xeon E5 2686 v4 de 2,3 GHz (base) y 2,7 GHz (turbo).
+\item Intel Xeon P-8175M 2,5-GHz (base) de alta frecuencia.
+\item Intel Xeon Platinum 8175 hasta 3,1 GHz.
+\end{itemize}
+
+\item FPGA, es la opción que ofrece Amazon para crear instancias de computación elástica aceleradas por hardware. Se ofrece un conjunto de herramientas de desarrollo para programar la instancia, permitiendo a los desarrolladores la creación de una imagen AFI (Amazon FPGA Image) que se puede reutilizar y compartir.
+
+\item Edge, representa las facilidades que ofrece Amazon para distribuir las aplicaciones en los distintos dispositivos. Los dispositivos pueden ejecutar funciones de AWS Lambda como la inferencia en algoritmos de aprendizaje, sincronización de datos y comunicación entre dispositivos. Con AWS IoT Greengrass se pueden utilizar diversos lenguajes y paradigmas de programación para crear aplicaciones que se van a distribuir a muchos dispositivos.
+
+\end{itemize}
+
+\subsubsection{\href{https://aws.amazon.com/es/lambda/}{Amazon Lambda}}
+Uno de los servicios recientes es Amazon Lambda, que consiste en la implementación de software en la nube sin necesidad de gestionar servidores. Sólo se sube el código que se desea ejecutar y se pueden utilizar los lenguajes siguientes: NodeJS, Java, Python, Ruby, Go, C\# y PowerShell.
+
+\subsection{Servicios de Inteligencia Artificial}
+Son los servicios de alto nivel que permiten incorporar funcionalidades que aprovechan las técnicas de Inteligencia Artificial a las aplicaciones, sin necesidad de desarrollar un modelo. El objetivo es que las empresas puedan implementar servicios sin desarrollar tecnología propia, ni contar con equipos altamente especializados para desarrollar e implementar aplicaciones que incorporan las técnicas de la Inteligencia Artificial.
+
+Por ejemplo se pueden utilizar los Servicios de Inteligencia Artificial para desarrollar Robots de atención al cliente a través de un centro de soporte telefónico (Call center), realizar proyecciones de demanda, análisis de imágenes, procesar lenguaje natural, implementar servicios de recomendaciones, asistentes virtuales, entre otros.
+
+Los servicios se pueden utilizar de forma separada o se pueden componer para implementar servicios más sofisticados. La gran ventaja es que estos servicios utilizan la misma tecnología que Amazon utiliza en su propio negocio.
+
+A continuación vamos a repasar cada uno de los Servicios de Inteligencia Artificial ofrecidos por Amazon.
+
+\subsubsection{\href{https://aws.amazon.com/es/comprehend/}{Amazon Comprehend}}
+
+Este servicio analiza textos en lenguaje natural e identifica el idioma, identifica entidades como (personas, lugares, marcas, productos, eventos, etc), frases, sentimiento (positivo, negativo, neutral o mixto), extrae frases en inglés o español. Adicionalmente es capaz de extraer tópicos de grandes cantidades de documentos para el análisis o la clasificación de documentos.
+
+Amazon ofrece sus servicios de forma interactiva o por lotes. El acceso interactivo se realiza a través del acceso a servicios web en línea, los servicios ofrecidos por lotes consiste en proporcionar los datos al servicio por lotes y esperar que Amazon realice el análisis y genere los resultados del análisis.
+Las funciones disponibles de forma interactiva son:
+\begin{itemize}
+\item Detección del idioma.
+\item Categorización e identificación de entidades.
+\item Análisis de sentimiento.
+\item Extracción de frases clave.
+\end{itemize}
+Extracción de tópicos y la clasificación de documentos se realiza por lotes y la duración es proporcional al tamaño de los datos.
+
+Se puede utilizar AutoML para contruir conjuntos de entidades o modelos de clasificación de texto que se adecuan a las necesidades específicas de la empresa.
+
+Amazon Comprehend es gestionado por Amazon, no se necesita implementar servidores, y no amerita el desarrollo de modelos de aprendizaje.
+
+Para mayores detalles se puede consultar \href{https://aws.amazon.com/blogs/aws/amazon-comprehend-continuously-trained-natural-language-processing/}{el artículo sobre Amazon Comprehend}.
+
+\subsubsection{\href{https://aws.amazon.com/es/comprehend/}{Ejemplo de conexión al API Amazon Comprehend}}
+
+Vamos a realizar la conexión al API Amazon Comprehend a través de la línea de comandos para mostrar el procedimiento y los resultados que genera la interfaz para programadores.
+
+El primer paso es instalar las herramientas para línea de comandos. En los comandos descritos en \ref{awscli} se realiza la descarga, instalación y configuración de la herramienta.
+
+\lstinputlisting[language=bash, caption=Instalación de las herramientas para la línea de comandos, label=awscli]{code/comprehend.sh}
+
+Una vez instalado podemos utilizar la funcionalidad provista por el API. En primer lugar vamos a ver cómo se utiliza la funcionalidad de detección del lenguaje. El comando que se debe ejecutar es \verb|aws comprehend detect-dominant-language|. Los comandos descritos en código fuente \ref{langdetect}, se puede ver que se especifica la región de AWS donde se desea ejecutar y el texto. El resultado indica el código del lenguaje y la probabilidad.
+
+\lstinputlisting[language=bash, caption=Detección del idioma, label=langdetect]{code/langdetection.sh}
+
+Amazon Comprehend ofrece la detección de sentimientos en el texto a través del comando \verb|aws comprehend detect-sentiment|. En los comandos descritos en código fuente \ref{sentiment} se especifica la región el idioma y el texto y el resultado indica el sentimiento que predomina y la puntuación del sentimiento dividido en las categorías mixto, neutral, positivo o negativo. En el primer ejemplo código fuente \ref{sentiment} podemos ver la progresión de la puntuación del sentimiento de acuerdo a la frase y las palabras que se utilizan.
+
+\lstinputlisting[language=bash, caption=Análisis de sentimiento, label=sentiment]{code/sentiment.sh}
+
+En el segundo ejemplo en el código fuente \ref{sentiment2} podemos ver cómo el sentimiento predominante detectado es positivo y luego negativo en consistencia con la frase.
+
+\lstinputlisting[language=bash, caption=Análisis de sentimiento, label=sentiment2]{code/sentiment2.sh}
+
+En este tercer ejemplo en el código fuente \ref{ironia} hemos utilizado la ironía y se puede apreciar que no se detecta y se clasifica como positiva. Este es un ejemplo de los límites de este tipo de servicios y nos sugiere que hay todavía mucho camino por andar en la detección de sentimientos.
+
+\lstinputlisting[language=bash, caption=Ironía, label=ironia]{code/ironico.sh}
+
+Por otra parte también podemos identificar las entidades, nombres, lugares u objetos que aparecen en el texto. Se utiliza el comando \verb|aws comprehend detect-entities| permite obtener la lista de entidades detectadas y su tipo. En el ejemplo se detecta una persona y una localidad.
+
+\lstinputlisting[language=bash, caption=Detección de entidades, label=entities]{code/entities.sh}
+
+Otra funcionaliad ofrecida es la identificación de frases importantes mediante el comando \verb|aws comprehend detect-key-phrases|. El resultado consiste en una lista de las frases detectadas y su lugar en el texto.
+
+\lstinputlisting[language=bash, caption=Detección de frases importantes, label=keyphrases]{code/keyphrases.sh}
+
+\subsubsection{\href{https://aws.amazon.com/comprehend/medical/}{Amazon Comprehend Medical}}
+De forma análoga Amazon Comprehend Medical extrae información relevante de fuentes de textos de información médica, como informes médicos, diagnósticos, resultados de estudios o pruebas, etc.
+
+Se puede recolectar información como estado de salud, medicamentos, dosis, cantidad, frecuencia, etc. Esta información se extrae de los reportes médicos, notas, registros médicos, etc.
+
+Existe una gran cantidad de información en formato libre de la cual se puede extraer información que permite mejorar el cuidado y acelerar la investigación relacionando la información de los pacientes.
+
+Los modelos de aprendizaje se adaptan e identifican relaciones entre los datos que mejoran con el tiempo. El acceso se realiza a través de llamadas a la interfaz para programadores (API).
+
+\subsubsection{\href{https://aws.amazon.com/forecast/}{Amazon Forecast}}
+Este servicio se especializa en realizar proyecciones utilizando algortimos de aprendizaje a través de una plataforma gestionada por Amazon.
+
+Amazon Forecast utiliza las técnicas de aprendizaje para combinar series de tiempo con variables adicionales para realizar proyecciones. Sólo se provee la data histórica y cualquier variable adicional que puede impactar la proyección.
+
+La proyección de la demanda, recursos o desempeño financiero se realiza mediante el estudio de los datos históricos y se asume que el comportamiento pasado es un reflejo de lo que puede ocurrir en el futuro. Sin embargo, con las técnicas de aprendizaje se pueden incorporar otras variables que pueden tener impacto y generar proyecciones más ajustadas.
+
+Este servicio es gestionado completamente por Amazon y se accede a través de la interfaz para programadores (API) provisto por Amazon.
+
+\subsubsection{\href{https://aws.amazon.com/lex/}{Amazon Lex}}
+Este servicio permite crear interfaces con capacidad para conversar a través de voz o texto.
+Amazon Lex provee funcionalidades avanzadas de Aprendizaje Profundo para el reconocimiento de la voz y la conversión de voz a texto además del reconocimiento del lenguaje natural para identificar la intención.
+
+Con estas capacidades se pueden construir aplicaciones capaces de interactuar con los usuarios mediante conversaciones similares a las que se realizan con operadores reales. Las mismas tecnologías que habilitan el funcionamiento de Amazon Alexa se ofrecen a los desarrolladores para que puedan construir sus propias aplicaciones de atención al cliente.
+
+\subsubsection{\href{https://aws.amazon.com/personalize/}{Amazon Personalize}}
+Este servicio habilita a las aplicaciones en la generación de recomendaciones a los clientes.
+
+El servicio recibe la información sobre los clientes, sus accesos, páginas visitadas, interacciones, suscripciones, compras, búsquedas, intereses, inventario existente de los artículos, productos, videos y este produce recomendaciones ajustadas a las preferencias conocidas del usuario y las preferencias de otros usuarios similares. Se pueden incorporar datos demográficos como la edad y localización, entre otros.
+
+Se pueden generar recomendaciones sobre productos, contenidos, mercadeo dirigido y resultados de búsqueda personalizados. Amazon Personalize examina los datos e identifica lo que es relevante para seleccionar el algoritmo que mejor se ajusta, lo entrena y optimiza para generar un modelos de personalización ajustado a los datos particulares. Los datos proporcionados son privados y se protegen y se utilizan de forma exclusiva en el modelo.
+
+El servicio de accede a través de la interfaz para programadores (API).
+
+\subsubsection{\href{https://aws.amazon.com/polly/}{Amazon Polly}}
+Este servicio realiza la conversión de texto a voz y permite la creación de aplicaciones que conversan mediante el uso de algoritmos de Aprendizaje Profundo que sintetizan la voz lo más parecido a la voz humana.
+
+En el ejemplo siguiente nos conectamos al API  Amazon Polly y le proporcionamos una frase para que se produzca la generación del audio respectivo. Se utiliza el comando \verb|aws polly synthesize-speech| y se especifica la región, el formato del audio esperado, el texto, la voz y el nombre del archivo donde se desea almacenar el resultado.
+
+\lstinputlisting[language=bash, caption=Texto a Voz, label=polly]{code/polly.sh}
+
+\begin{center}
+\includemovie[text=Haz click para escuchar el resultado de Amazon Polly, mouse, showcontrols, autoplay]{}{}{audio/ucv.mp3}
+\end{center}
+
+Se ofrece una variedad de idiomas y voces masculinas o femeninas de distintos estilos para desarrollar aplicaciones para distintos paises, se pueden hacer aplicaciones con un estilo de narración de noticias.
+
+\subsubsection{\href{https://aws.amazon.com/rekognition/}{Amazon Rekognition}}
+Este servicio ofrece el análisis de imágenes y videos para identificar objetos, personas, texto, paisajes, actividades o inclusive contenido inapropiado. Se ofrece la funcionalidad de análisis facial y reconocimiento facial en las imágenes o videos proporcionados. Se pueden detectar, analizar y comparar rostros con fines de seguridad y además conteo de personas.
+
+Se utiliza a través de la interfaz para programadores y se proporciona el contenido a través de Amazon S3.
+
+\subsubsection{\href{https://aws.amazon.com/textract/}{Amazon Textract}}
+Es un servicio de digitalización inteligente de información. Se extrae información de documentos escaneados en formato libre o en formas o tablas. De esta manera no es necesario el proceso de digitalización de documentos manual. Mediante el uso de las técnicas de aprendizaje se puede extraer texto de cualquier documento sin procesos manuales.
+
+Se puede integrar con procesos de procesamiento de solicitudes y recepción de recaudos, además se pueden crear índices de búsquedas, construcción de flujos de trabajo para aprobaciones u otro proceso que requiera el procesamiento de datos en planillas.
+
+\subsubsection{\href{https://aws.amazon.com/translate/}{Amazon Translate}}
+Es el servicio de traducción de información basado en redes neuronales y Aprendizaje Profundo para producir traducciones más naturales y exactas. Se puede utilizar para traducir contenido de sitios web así como para el procesamiento de grandes cantidades de texto.
+
+En la secuencia de comandos descrita en \ref{translate} se puede ver un ejemplo de conexión al API Amazon Translate desde la línea de comandos. Se especifica el texto, el idioma de origen y el idioma en el cual se desea el resultado.
+
+\lstinputlisting[language=bash, caption=Traducción de texto, label=translate]{code/translate.sh}
+
+\subsubsection{\href{https://aws.amazon.com/transcribe/}{Amazon Transcribe}}
+Es el servicio que convierte voz a texto y realiza la transcripción mediante el reconocimiento automático de voz. Se pueden transcribir audios almacenados en Amazon S3 y se recibe como resultado un archivo de texto con la transcripción de la voz.
+
+Adicionalmente, también se puede enviar un flujo de audio en vivo para realizar transcripciones en tiempo real. Se puede utilizar en casos de uso como la transcripción de llamadas a los servicios de soporte o generación de subtítulos para audios o videos.
+
+Se pueden transcribir archivos en formato WAV o MP3.
+
+\subsubsection{\href{https://aws.amazon.com/solutions/}{Soluciones de AWS}}
+
+A partir de los Servicios de Inteligencia Artificial se pueden componer soluciones que resuelven un problema en un dominio específico. Por ejemplo, se puede usar una solución que transcribe, traduce y analiza las interacciones de un usuario a través de un servicio telefónico de atención al cliente. Se realiza el
+\href{https://aws.amazon.com/solutions/ai-powered-speech-analytics-for-amazon-connect/}{Análisis de la voz} y se genera la información que alimenta a los servicios de Inteligencia Artificial de Amazon para generar información útil que permita mejorar la experiencia de atención al cliente. Se puede apreciar en la figura \ref{analisisdevoz} los componentes que intervienen en la generación del resultado. En este caso se utiliza Amazon Connect para procesar el audio de las llamadas teléfonicas, se utilizan algunas funciones para recibir el resultado y enviarlo a Amazon Transcribe, el resultado se almacena en Amazon S3 y en una Base de datos Amazon DynamoDB. Esta base de datos está accesible a través de una interfaz para programadores (API) que a su vez es consumida por la aplicación de atención al cliente que utiliza el Agente de atención. Ese texto a su vez se puede envíar a través de una interfaz para programadores a los servicios de traducción (Amazon Translate) y los servicios de procesamiento de lenguaje natural (Amazon Comprehend).
+
+\begin{figure}[h]
+  \scalebox{1.25}{\includegraphics{img/ai-powered-speech-amazon-connect-architecture.png}}
+\caption{Análisis de voz}
+\label{analisisdevoz}
+\end{figure}
+
+\subsection{Servicios de Aprendizaje Automático}
+
+\begin{itemize}
+\item \href{https://aws.amazon.com/es/sagemaker/}{Amazon SageMaker}
+
+Amazon SageMaker es un servicio de aprendizaje automatizado completamente administrado por Amazon. El servicio permite construir, entrenar y publicar modelos de aprendizaje en la nube para ser consultados y consumidos desde las aplicaciones de cualquier tipo, en particular aplicaciones web y móviles.
+
+Provee un cuarderno de notas de Jupyter para facilitar el acceso a los datos y realizar procesos de exploración de datos en los servidores de Amazon. Adicionalmente provee una serie de algoritmos de aprendizaje que están optimizados para procesar grandes cantidades de datos en ambientes distribuidos.
+
+Amazon SageMaker permite implementar algoritmos propios o inclusive utilizando otros ambientes de desarrollo como \textbf{Tensorflow} o \textbf{keras}. Los modelos se pueden implementar aprovechando las facilidades de seguridad y escalabilidad ofrecida por Amazon Web Services. Se puede visualizar el proceso el proceso en la imagen \ref{SageMaker}.
+
+\begin{figure}[h]
+  \scalebox{1.25}{\includegraphics{img/SageMaker.png}}
+  \caption{Amazon SageMaker}
+  \label{SageMaker}
+\end{figure}
+
+\item \href{https://aws.amazon.com/sagemaker/groundtruth/}{Amazon SageMaker Ground Truth}
+
+Con la popularización de los algoritmos de entrenamiento supervisados se ha hecho necesaria la generación de nuevas bases de datos etiquetadas para entrenar nuevos modelos. El servicio que ofrece Amazon consiste en etiquetar bases de datos de forma automatizada o manual.
+
+Se puede utilizar la fuerza de trabajo de Amazon Mechanical Turk, algún proveedor propio o interno, así como los algoritmos de aprendizaje para crear la bases de datos etiquetadas.
+
+El propósito es que estas bases de datos etiquetadas sirvan para entrenar modelos de aprendizaje con SageMaker. Amazon ofrece las herramientas automatizadas o manuales para realizar el proceso de etiquetado. En el caso manual se ofrece un conjunto de herramientas a través de páginas web que dan las instrucciones para etiquetar los datos. Los datos se almacenan en contenedores de Amazon S3 que contienen los datos a ser etiquetados, la descripción de los datos y la descripción del resultado esperado.
+
+\item \href{https://aws.amazon.com/es/sagemaker/neo/}{Amazon SageMaker Neo}
+
+Este servicio ofrece la capacidad para entrenar modelos y optimizarlos para ejecutarlos en la nube o en dispositivos de diversas arquitecturas.
+
+El objetivo es que se puedan utilizar los modelos de aprendizaje ya entrenados directamente en los dispositivos para evitar el consumo de servicios en la nube para generar inferencias. Por ejemplo, los sensores de los vehículos autónomos deben responder en milisegundos para ser útiles, es por ello que los modelos entrenados deben optimizarse para ser ejecutados en el vehículo sin necesidad de enviar datos o conectarse a otros servicios.
+
+Los modelos pueden optimizarse para ser ejecutados en procesadores Intel, NVIDIA o ARM. Los modelos se distribuyen con Amazon Greegrass de forma similar a como se distribuyen los modelos entrenados en Amazon Deeplens.
+
+Amazon Sagemaker Neo es de código fuente abierto lo cual permite que los desarrolladores puedan incorporar nuevos dispositivos. \href{https://github.com/neo-ai/}{El repositorio está alojado en github}.
+
+\end{itemize}
+
+\subsection{Algoritmos de Aprendizaje Automático provistos en Amazon SageMaker}
+
+Amazon SageMaker ofrece una diversidad de algoritmos pre programados y configurables que permite resolver una gran cantidad de problemas de regresión o clasificación supervisado o no supervisado.
+
+Vamos a realizar una descripción breve de cada algoritmo provistos por Amazon SageMaker, vamos a repasar las características principales, referencias y ejemplos de uso.
+
+Cada algoritmo cuenta con \href{https://github.com/awslabs/amazon-sagemaker-examples/tree/master/introduction_to_amazon_algorithms}{ejemplos provistos por Amazon} para entender su uso con datos de ejemplo. Cada uno representa una línea de trabajo que permite solucionar problemas aplicando técnicas de Aprendizaje Automático.
+
+Cabe destacar que el uso de estos algoritmos amerita el uso de servicios de almacenamiento para los datos de entrenamiento, datos de prueba, datos nuevos y resultados inferidos, así como la capacidad de procesamiento necesaria para realizar el proceso de entrenamiento y luego las inferencias mediante un servicio.
+
+\subsubsection{BlazingText}
+
+Es un algoritmo no supervisado para generar nuevas representaciones de una palabra que utiliza \href{https://en.wikipedia.org/wiki/Word2vec}{Word2Vec} . El algoritmo intenta predecir la presencia de una palabra partiendo de las palabras adjacentes utilizando el saco de palabras (Bag-Of-Words - CBOW) o intenta predecir el contexto a partir de una palabra utilizando SGNS (Skip-Gram with Negative Sampling). La referencia se puede ver en \cite{word2vect}.
+
+\subsubsection{DeepAR Forecasting}
+
+Es un algoritmo supervisado que realiza proyecciones siguiendo el método descrito en \cite{DeepAR}.
+
+Se utiliza para realizar proyecciones en series de tiempo utilizando Redes Neuronales Recurrentes, que son Redes con ciclos que permiten que la información fluya con memoria, permitiendo la generación de inferencias sobre el valor siguiente.
+
+Aunque se ensambla un modelo para cada serie de tiempo, se utiliza la información de otras series de tiempo para realizar proyecciones identificando las similitudes. Se puede utilizar para proyectar la demanda de productos o mano de obra. La \href{https://docs.aws.amazon.com/sagemaker/latest/dg/deepar.html}{documentación en Amazon} está disponible, así como una descripción de \href{https://docs.aws.amazon.com/sagemaker/latest/dg/deepar_how-it-works.html}{cómo funciona} en SageMaker.
+
+\subsubsection{Factorization Machines}
+
+Es un algoritmo de aprendizaje supervisado que se utiliza para hacer regresión o clasificación que sigue el método descrito en \cite{factormachines}.
+
+El método es una extensión de los modelos lineales que se diseña para extraer interacciones entre características o variables en datos dispersos (sparse) y multi dimensionales. La predicción de clicks o recomendaciones de productos pueden ser un buen problema de aplicación. Se puede seguir el \href{https://github.com/awslabs/amazon-sagemaker-examples/blob/master/introduction_to_amazon_algorithms/factorization_machines_mnist/factorization_machines_mnist.ipynb}{ejemplo documentado} por Amazon.
+
+\subsubsection{Image Classification Algorithm}
+
+Es un algoritmo supervisado que realiza clasificaciones múltiples. Toma una imagen y genera un vector de etiquetas asociadas a la imagen. Utiliza ResNet (ver \ref{chap:resnet}) como arquitectura de una Red Neuronal Convolucional que se puede entrenar utilizando aprendizaje por transferencia o partiendo de una Red sin entrenamiento. La referencia del método se puede ver en \cite{imageclassification}
+
+Para entender mejor el método se puede consultar el ejemplo en \href{https://github.com/apache/incubator-mxnet/tree/master/example/image-classification}{MxNet}. Adicionalmente se puede seguir un \href{https://aws.amazon.com/es/blogs/machine-learning/classify-your-own-images-using-amazon-sagemaker/}{tutorial} del blog de AWS.
+
+
+\subsubsection{IP Insights}
+
+Es un algoritmo no supervisado con aplicaciones en seguridad de la información que detecta patrones de uso de las direcciones IPv4. Está diseñado para identificar patrones que asocian las direcciones IP con los usuarios y cuentas. Dos usuarios que utilizan la misma dirección IP se relacionan. Las relaciones generan una puntuación sobre el nivel de sospecha o anomalía que representa el patrón de un evento. En base a esta puntuación el servidor web podría decidir si solicitar credenciales o factores de seguridad adicionales. Se puede consultar el \href{https://github.com/awslabs/amazon-sagemaker-examples/blob/master/introduction_to_amazon_algorithms/ipinsights_login/ipinsights-tutorial.ipynb}{ejemplo disponible} en la documentación del servicio.
+
+\subsubsection{K-Means Algorithm}
+
+Es un algoritmo no supervisado que agrupa objetos similares de acuerdo a una función de distancia en un espacio $n$-dimensional. Cada grupo tiene un centro y se calcula la distancia de cada punto con relación a los centros. El analista decide cuantos grupos utilizar.
+
+\subsubsection{K-Nearest Neighbors (k-NN) Algorithm}
+
+El algoritmo de los $k$-vecinos más cercanos utiliza un método no paramétrico para realizar clasificación o regresión. Para clasificar utiliza los $k$ puntos más cercanos y utiliza el valor observado más frecuente en los datos para indicar la clase a la que pertenece el dato. Para problemas de regresión toma los $k$-vecinos más cercanos y utiliza el promedio de los vecinos para generar la inferencia. En el proceso se genera un índice que permite realizar búsquedas y generar un resultado más rápido para nuevos datos.
+
+Se puede \href{https://docs.aws.amazon.com/sagemaker/latest/dg/k-nearest-neighbors.html#kNN-sample-notebooks}{revisar el ejemplo} en los cuadernos de notas de Amazon.
+
+\subsubsection{Latent Dirichlet Allocation (LDA)}
+
+Es un algoritmo no supervisado que intenta describir cada observación como una mezcla de categorías. Las características pueden pertenecer a distintas categorías. Un ejemplo típico es la clasificación de documentos por materia dependiende de la presencia de ciertas palabras.
+
+Las materias se aprenden, como la distribución de probabilidad sobre las palabras que aparecen en cada documento. Cada documento pertenece a varias materias.
+
+Se provee \href{https://github.com/awslabs/amazon-sagemaker-examples/blob/master/introduction_to_amazon_algorithms/lda_topic_modeling/LDA-Introduction.ipynb}{un ejemplo} que introduce el método en la documentación de AWS.
+
+\subsubsection{Linear Learner}
+
+Es un algoritmo supervisado que implementa un modelo lineal para resolver problemas de clasificación o regresión. Se provee un vector de dimensión $p$ con un valor observado asociado al vector. Para realizar una clasificación binaria el valor observado debe ser un valor entre $0$ o $1$ o en el caso de $m$ clases, debe ser un valor entre $0$ y $m-1$. Para realizar una regresión el valor observado debe ser un número real.
+
+Se pueden evaluar distintas funciones de pérdida y tomar la que mejor se ajuste al modelo utilizando una variedad de funciones de pérdida y parámetros. Se proveen algunos \href{https://docs.aws.amazon.com/sagemaker/latest/dg/linear-learner.html#ll-sample-notebooks}{cuadernos de notas de ejemplo} y la \href{https://github.com/awslabs/amazon-sagemaker-examples/blob/master/introduction_to_amazon_algorithms/linear_learner_mnist/linear_learner_mnist.ipynb}{aplicación del método para realizar la clasificación binaria} que detecta si un dígito en el banco de imágenes MNIST es un cero.
+
+\subsubsection{Neural Topic Model (NTM)}
+
+Es un algoritmo no supervisado que se utiliza para organizar bases de datos de documentos por materias, mediante la distribución estadística de las grupos de palabras que contiene el mismo. Se le debe especificar al algoritmo el número de materias, no las materias en sí mismo. Los documentos se indexan para consiguir documentos en la base de entrenamiento o para clasificar nuevos documentos con características similares. El algoritmo está basado en el trabajo descrito en \cite{neuraltopic}.
+
+\subsubsection{Object2Vec}
+
+Es un algoritmo que permite reducir la dimensión de los datos generando un vector de características de menor dimensión que la dimensión de los datos observados. De esta forma se extraen características que permite la clasificación de los datos originales utilizando la nueva representación en una menor dimensión. Este método se utiliza para análisis de sentimientos, clasificación de documentos y procesamiento de lenguaje natural.
+
+Adicionalmente se puede utilizar para extraer características a las frases, datos de los clientes o productos y de esta forma agrupar datos similares. Se puede \href{https://aws.amazon.com/es/blogs/machine-learning/introduction-to-amazon-sagemaker-object2vec/}{consultar el blog} de AWS para más información sobre las aplicacioens.
+
+\subsubsection{Object Detection Algorithm}
+
+Es un algoritmo que detecta objetos que utiliza una Red Neuronal Profunda. Es un algoritmo de aprendizaje supervisado que toma las imágenes como entrada e identifica todas las repeticiones de un objeto en una imagen. Los objetos se clasifican de acuerdo a las clases definidas en los datos observados. La localización y escala de cada objeto identificado se devuelve como resultado. Utiliza SSD (Single Shot multibox Detector) con VGG y ResNet. Se puede entrenar la Red partiendo de un modelos sin entrenamiento y desde un modelo pre entrenado. Se puede \href{https://github.com/awslabs/amazon-sagemaker-examples/blob/master/introduction_to_amazon_algorithms/object_detection_pascalvoc_coco/object_detection_image_json_format.ipynb}{consultar el ejemplo} para más detalles.
+
+\subsubsection{Principal Component Analysis (PCA)}
+
+Es un algoritmo no supervisado que identifica las características que representan la mayor cantidad de información (varianza) en un conjunto de datos, de manera que se pueda reducir la dimensión de los datos. Cada nueva característica, que es una combinación de las características originales, serán independientes entre ellas. Pueden \href{https://aws.amazon.com/blogs/machine-learning/perform-a-large-scale-principal-component-analysis-faster-using-amazon-sagemaker/}{consultarl el blog} de AWS para más información.
+
+\subsubsection{Random Cut Forest}
+
+Es un algoritmo no supervisado que sirve para identificar datos anómalos dentro de un conjunto de datos. De esta manera se pueden realizar procesos de limpieza en conjuntos de datos para bajar su complejidad y poder aplicar otros métodos. \href{https://github.com/awslabs/amazon-sagemaker-examples/blob/master/introduction_to_amazon_algorithms/random_cut_forest/random_cut_forest.ipynb}{Consulta el ejemplo} provisto por AWS para más información.
+
+\subsubsection{Semantic Segmentation}
+
+Consiste en clasificar cada punto de una imagen (pixel) de acuerdo a un conjunto de clases provisto. La clasificación usualmente se representa como una imagen con la misma dimensión que la imagen de entrada con una máscara de color que diferencia los objetos de la imagen.
+
+Se utilizan los algoritmos descritos en \cite{FC-semanticseg}, \cite{PSPN-semanticseg} y \cite{DeepLab-semanticseg}.
+
+Puede \href{{https://github.com/awslabs/amazon-sagemaker-examples/blob/master/introduction_to_amazon_algorithms/semantic_segmentation_pascalvoc/semantic_segmentation_pascalvoc.ipynb}}{consultar el ejemplo} para más información.
+
+
+\subsubsection{Sequence2Sequence}
+
+Es un algoritmo supervisado que utiliza Redes Neuronales Recurrentes y Redes Neuronales Convolucionales para generar secuencias a partir de secuencias, útil en la traducción automática de textos o la conversión de texto a voz. Puede consultar un \href{https://github.com/awslabs/amazon-sagemaker-examples/blob/master/introduction_to_amazon_algorithms/seq2seq_translation_en-de/SageMaker-Seq2Seq-Translation-English-German.ipynb}{ejemplo provisto} que realiza una traducción del Inglés al Alemán.
+
+\subsubsection{XGBoost Algorithmm}
+
+Es una implementación del algoritmo supervisado basado en árboles de decisión que intenta inferir una variable objetivo, realizando una combinación ponderada (boosting) de un conjunto de estimados producidos por otros modelos de menor desempeño . Maneja un gran cantidad de de tipos de datos, relaciones y distribuciones y se puede utilizar para ordenar, realizar regresiones o clasificación binaria o múltiple. Puede consultar el \href{https://github.com/awslabs/amazon-sagemaker-examples/blob/master/introduction_to_amazon_algorithms/xgboost_abalone/xgboost_abalone.ipynb}{ejemplo provisto} por AWS.
+
+\subsection{Marcos de trabajo}
+
+En los últimos años se han desarrollado diversos ambientes de trabajo para la investigación y desarrollo de aplicaciones con técnicas de aprendizaje. Entre ellos \textbf{TensorFlow}, \textbf{PyTorch} o Apache \textbf{MxNet}, entre otros.
+
+\subsubsection{AMI de Aprendizaje Profundo de AWS}
+
+Consiste en una variedad de instancias de computación elástica previamente configuradas para trabajar con diversos marcos de trabajo como \textbf{TensorFlow}, \textbf{PyTorch} o Apache \textbf{MxNet}.
+
+Existen instancias con CPU, varios CPU, GPU, desde 1 o varios. En particular la instancia viene preconfigurada con NVIDIA CUDA o cnDNN. Estas máquinas aceleran la implementación de los ambientes de trabajo de Aprendizaje Profundo con diversas opciones de procesamiento.
+
+\subsubsection{Contenedores de Aprendizaje Profundo de AWS}
+
+Son diversas las opciones para entrenar modelos de aprendizaje, podemos contar con contenedores preconfigurados o utilizar Amazon SageMaker. Los contenedores AMI consisten en ambientes pre instalados y preconfigurados para realizar investigación y desarrollo de aplicaciones con Aprendizaje Profundo.
+
+\subsubsection{\href{https://aws.amazon.com/es/tensorflow/}{Tensorflow en AWS}}
+
+\textbf{TensorFlow} es un ambiente de trabajo que ofrece las facilidades para realizar cálculos que aprovechan la capacidad de procesamiento disponible como CPU o GPU. En particular la librería \textbf{keras} utiliza \textbf{TensorFlow} para implementar Redes Neuronales Artificiales e inclusive Redes Neuronales Convolucionales.
+
+Se pueden crear ambientes de trabajo con \textbf{TensorFlow} a través de Amazon SageMaker o implementar una instancia utilizando un AMI de Aprendizaje Profundo.
+
+\subsubsection{PyTorch en AWS}
+
+\textbf{PyTorch} es un ambiente de trabajo de Aprendizaje Profundo de código abierto que permite desarrollar modelos de aprendizaje. Se puede utilizar a través de Amazon SageMaker o un ambiente preconfigurado como un AMI de Aprendizaje Profundo.
+
+\subsubsection{Apache MXnet en AWS}
+
+Apache \textbf{MxNet} en un marco de trabajo para implementar algoritmos de aprendizaje que incluye la interfaz de Gluon para realizar modelos de Aprendizaje Profundo en dispositivos de diversas arquitecturas. Se puede utilizar a través de Amazon SageMaker o a través de un ambiente preconfigurado como una AMI de Aprendizaje Profundo.
+
+\subsection{Aprenda ML de AWS}
+
+Adicional a las facilidades para implementar ambientes de trabajo de Aprendizaje Profundo con Amazon SageMaker o las instancias de computación elástica preconfiguradas denominadas AMI, Amazon ha lanzado varios dispositivos que están configurados para utilizar las facilidades de Amazon para desplegar aplicaciones de Aprendizaje Profundo, entre ellos DeepRacer y DeepLens.
+
+\subsubsection{DeepRacer}
+
+Es un carro de carreras a escala que utiliza el aprendizaje reforzado (Reinforcement Learning). Tiene una escala de 1/18 y sirve para aprender y probar las técnicas de aprendizaje no supervisado para la conducción autónoma. Se implementan los algoritmos en la nube para correr las pistas virtuales del simulador de carreras 3D, para luego implementarlos en el carro de carreras.
+
+\begin{figure}[h]
+  \scalebox{0.5}{\includegraphics{img/deepracer.png}}
+  \caption{Aprendizaje Reforzado con DeepRacer}
+  \label{deepracer}
+\end{figure}
+
+\subsubsection{DeepLens}
+
+Es una cámara inalámbrica con una interfaz para programadores, permite implementar los modelos de vision por computadora más recientes, con procesamiento en tiempo real. Los modelos son Redes Neuronales Convolucionales que implementan la identificación de patrones en imágenes.
+
+Amazon ofrece la tecnología para implementar modelos que se despliegan en la cámara para probar el modelo y visualizar el resultado de aplicar un modelo a un flujo de video en tiempo real.
+
+Como se puede apreciar en el gráfico \ref{deeplensproc} la cámara captura el video y produce dos salidas, la primera es el flujo de video sin procesar o flujo del dispositivo y la segunda la genera una función de inferencia que recibe el flujo de video sin procesar y lo pasa al modelo de inteligencia artificial para ser procesado, la función recibe el resultado del modelo y genera el flujo del proyecto.
+
+\begin{figure}[h]
+  \scalebox{1.25}{\includegraphics{img/deeplens.png}}
+  \caption{Procesamiento de la imagen con Deeplens}
+  \label{deeplensproc}
+\end{figure}
+
+Los modelos se pueden implementar en otros ambientes de desarrollo o a través de otras infraestructuras como Amazon SageMaker y se despliega en el dispositivo. En el dispositivo se puede implementar un modelo entrenado en ambientes de trabajo externos, el modelo debe contener la arquitectura de la red neuronal y los parámetros ajustados.
+
+El dispositivo requiere conexión a internet cuando se despliega el modelo en la cámara y si alguna funcionalidad del modelo requiere conectividad. Si el modelo no requiere ningún tipo de conectividad entonces una vez desplegado el modelo, se puede visualizar el flujo del proyecto y los resultados de la inferencia en la cámara directamente.
+
+\begin{figure}[h]
+  \scalebox{1}{\includegraphics{img/deeplens2.png}}
+  \caption{Camara Amazon DeepLens}
+  \label{deeplens2}
+\end{figure}
+
+AWS Deeplens utiliza los servicios siguientes:
+\begin{itemize}
+\item Amazon SageMaker, para entrenar y validar los modelos.
+\item AWS Lambda para realizar inferencias sobre modelos de redes neuronales convolucionales.
+\item AWS Greengrass para desplegar y distribuir los modelos en los dispositivos.
+\end{itemize}
+
+\subsubsection{\href{https://www.aws.training}{Entrenamiento en AM (ML Training)}}
+
+Con todo el despliegue de tecnología y servicios Amazon ofrece diversos programas de entrenamiento y en particular programas de Aprendizaje Automática (Machine Learning) con el cual se pueden formar los desarrolladores y los científicos de datos. Se ofrecen más de 30 cursos en formato digital con prácticas y teoría.
+
+Estos programas sirven a la comunidad en general y sirven para aprender a aplicar el aprendizaje automatizado, inteligencia artificial, Aprendizaje Profundo y aprendizaje reforzado. Tienen un enfoque aplicado y además un programa de certificación.

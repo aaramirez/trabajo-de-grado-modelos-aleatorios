@@ -1,0 +1,117 @@
+% !Rnw root = 000proyecto.Rnw
+
+\newpage
+
+\chapter{Resultados y conclusiones}
+
+\section{Resultados}
+
+\subsection{Servicios de Inteligencia Artificial de Amazon}
+
+Es extensa y creciente la oferta de servicios de Amazon y muy completa para que nuestros modelos puedan pasar de un ejercicio académico a un servicio que otros pueden consumir en la Nube. Hemos visto adicionalmente que estos servicios se pueden combinar para conformar soluciones más complejas. Hemos conseguido una documentación extensa y muchos ejemplos que han servido para entender cómo se aplican estos modelos.
+
+Amazon SageMaker sirve como plataforma para entrenar y publicar como servicio los modelos desarrollados, lo cual permite pasar del ambito académico al ambito industrial y de soluciones.
+
+Hemos visto que los servicios tienen sus límites y de ahí se pueden derivar nuevas líneas de trabajo. Aunque hemos trabajado solo con Amazon, hemos visto que otros proveedores están desarrollando sus propias soluciones que bien vale la pena estudiar.
+
+\subsection{Ajuste de Redes Neuronales Convolucionales}
+
+Se desarrolló un cuaderno de notas en Python con el proceso de ajuste de una Red Neuronal Convolucional descrito paso a paso con finalidad didáctica. Se utilizó \textbf{keras} y esto facilitó de forma significativa el trabajo debido a que ya incorporan los conjuntos de datos con los cuales trabajamos, además utilizamos \textbf{scikit learn} para generar las matrices de confusión, permitiendo visualizar los datos que sirven para medir el desempeño del modelo ajustado.
+
+\subsubsection{MNIST}
+
+Con el conjunto de datos MNIST el entrenamiento que se hizo de la Red Neuronal Convolucional duró un minuto y medio por cada ciclo de entrenamiento, para un tiempo total de 20 minutos. El ajuste que se realizó alcanzó una exactitud de 99\% y se aplicó la técnica de regularización por descarte (dropout). Este conjunto de datos representa el primer paso para cualquier investigador que desea trabajar con modelos de aprendizaje para realizar regresión o clasificación supervisada o no supervisada.
+
+\begin{figure}[h]
+  \scalebox{0.6}{\includegraphics{img/confusion-mnist.png}}
+\caption{Matriz de confusión de las inferencias sobre los datos de prueba MNIST}
+\label{confusion-mnist}
+\end{figure}
+
+Los modelos se almacenaron y no es necesario ajustarlos de nuevo si sólo se desea hacer un proceso de inferencia. Este hecho es muy ventajoso y ayuda a trabajar con el modelo sin necesidad de volver a ajustarlo.
+
+En la matriz de confusión, en la imagen \ref{confusion-mnist}, se puede apreciar un nivel de error muy bajo para el ajuste de los datos MNIST.
+
+\subsubsection{CIFAR}
+
+Con el conjunto de datos CIFAR el entrenamiento duró 5 horas, ya que se hicieron 100 ciclos de entrenamiento con todos los datos. El ajuste que se realizó alcanzó una exactitud de 78\%. El proceso ha sido más lento aunque la cantidad de parámetros a ajustar son un millón doscientos cincuenta mil parámetros comparado con cerca de un millón doscientos mil en el caso de MNIST.
+
+\begin{figure}[h]
+  \scalebox{0.74}{\includegraphics{img/confusion-cifar.png}}
+\caption{Matriz de confusión de las inferencias sobre los datos de prueba CIFAR}
+\label{confusion-cifar}
+\end{figure}
+
+Los datos en el caso de CIFAR son más complejos ya que las imágenes son a color y más variadas y las clases representan un mayor reto por las similitudes entre algunas clases. Por ejemplo los animales de 4 patas se confunden entre sí, un carro se puede confundir con un camión, entre otros. Esto muestra la dificultad en el ajuste de este tipo de modelos y la necesidad de técnicas adicionales para mejorar el desempeño.
+
+En la matriz de confusión sobre las predicciones del modelos ajustado con los datos CIFAR, que se pueden ver en la imagen \ref{confusion-cifar}, podemos visualizar los errores que comete el modelo. En particular, la clase de los gatos tiene el nivel de verdaderos positivos más bajo con 53\% y el modelo, partiendo de la foto de un gato, infiere que es un perro el 11\% de las veces e infiere que es una rana el 14\% de las veces. Los siguientes más bajos son los pájaros y los perros. En las clases que tienen que ver con animales es que se comenten la mayor cantidad de errores.
+
+\subsection{Reconocimiento de objetos con Deeplens}
+
+Se implementó un modelo de reconocimiento de objetos en el dispositivo Deeplens y se estudiaron las características del modelo \textbf{SSD} que parte de la arquitectura \textbf{ResNet} para generar las inferencias. En las imágenes \ref{ejemplodeeplens1} y en \ref{ejemplodeeplens2} podemos apreciar el resultado de la inferencia realizada.
+
+\begin{figure}[h]
+  \scalebox{1.25}{\includegraphics{img/objects1.png}}
+\caption{Primer ejemplo de reconocimiento de objetos con Deeplens}
+\label{ejemplodeeplens1}
+\end{figure}
+
+Trabajando con Amazon Deeplens hemos observado que es un kit para desarrolladores e investigadores, su desempeño y la capacidad del equipo no permite que sea utilizado en soluciones de misión crítica. Sin embargo sirve para los propósitos que nos hemos planteado.
+
+Los objetos fueron reconocidos como las computadoras, personas y un perro. Sin embargo, confundió una hamaca recogida con una botella, lo cual da una idea de los límites de estos métodos.
+
+\begin{figure}[h]
+  \scalebox{1.25}{\includegraphics{img/objects2.png}}
+\caption{Segundo ejemplo de reconocimiento de objetos con Deeplens}
+\label{ejemplodeeplens2}
+\end{figure}
+
+Se implementó un modelo pre entrenado en Amazon Deeplens y se estudió la forma como se despliegan nuevos modelos, el modelo de negocios de Amazon genera cargos y nuevos pagos cada vez que se despliega un modelo en el dispositivo, fuimos bien conservadores para evitar gastos adicionales.
+
+\section{Conclusiones}
+
+\subsection{Servicios en la Nube}
+
+Los servicios ofrecidos por Amazon son un excelente punto de partida para entender el alcance y los límites de los métodos de Inteligencia Artificial y Aprendizaje Automatizado. Hay una brecha entre la práctica teórica/académica y la implementación de soluciones a problemas reales. Amazon ofrece una solución para salvar esta brecha, desplegando los modelos en la nube y publicándolos como servicios.
+
+Hemos visto que hay límites a la práctica actual, en particular dimos un ejemplo con el análisis de sentimientos y el reconocimiento de la ironía. Estas brechas o límites identificados perfectamente pueden convertirse en líneas de investigación. Así que los proveedores importantes de tecnología y soluciones, son una fuente importante de conocimiento para aprovechar sus bondades y ampliar el alcance de nuestras soluciones y al mismo tiempo son una fuente de problemas de interés para la investigación.
+
+\subsection{Redes Neuronales y Redes Neuronales Convolucionales}
+
+Las Redes Neuronales y más recientemente las Redes Neuronales Convolucionales representan un movimiento renovado de investigación sobre los métodos de aprendizaje, optimización, regularización, cálculo, computación paralela, entre otros, y representan un avance decidido en la solución a muchos problemas en áreas diversas y en particular en el área de visión por computadora.
+
+El uso de procesadores gráficos, nuevas funciones de activación y arquitecturas de capas innovadoras ha renovado el interés de los investigadores y se han desarrollado nuevos métodos para mejorar su desempeño.
+
+Es claro el avance, pero también queda muy claro el reto. Los modelos requieren grandes cantidades de datos que son costosos para recolectar y procesar. El entrenamiento de Redes Neuronales es costoso en almacenamiento y en procesamiento, una vez ajustado un modelo entonces podemos almacenarlo y utilizarlo como base para generar soluciones.
+
+Esta práctica se conoce como aprendizaje por transferencia, es decir, no se parte de un modelo nuevo sino desde un modelo pre entrenado. Nos imaginamos que es posible la creación de bases de datos de modelos pre entrenados y especializados que se podrán ensamblar en soluciones a diversos problemas. El diseño y creación de este tipo de bases de datos está por verse en el futuro, por lo pronto sólo contamos con algunos modelos pre entrenados disponibles a través de los ambientes de trabajo.
+
+El ajuste de modelos con imágenes sigue siendo interesante y retador, hemos visto que con arquitecturas similares pero conjuntos de datos distintos, el ajuste y la exactitud es diferente en cada problema y esto genera el reto de continuar trabajando en modelos de propósito general y ajustar modelos a como de lugar, para aumentar la exactitud y sobre ajustar un modelo para trabajar con un conjunto de datos específico.
+
+En este sentido el ajuste de un modelo hoy en día depende fuertemente de los datos disponibles y todavía hace falta el ojo experto para ajustar las arquitecturas y los hiper parámetros de los modelos para llegar a resultados más favorables, con el riesgo o la ventaja de generar modelos especializados.
+
+Nos parece interesante como tesis para trabajos futuros el ajuste de modelos óptimos especializados y su conformación en arquitecturas para resolver problemas de clasificación y detección de objetos en imágenes. Si contamos con un modelo de clasificación binario para cada objeto con una exactitud muy alta, en lugar de entrenar un modelo general, entrenamos dos modelos especializados y los combinamos en una arquitectura que le envía la entrada a cada modelo y cada uno produce un resultado. Nos parece que el entrenamiento de modelos especializados puede ser menos costoso e intensivo, el proceso actual es top-down y nuestra propuesta sería bottom-up.
+
+Hay una gran variedad de opciones para trabajar modelos basados en Redes Neuronales, utilizamos \textbf{keras}, \textbf{scikit learn} y modelos de \textbf{MxNet} durante el trabajo. Afortunadamente hemos encontrado una gran diversidad de recursos para entender el funcionamiento de las Redes Neuronales y además implementarlas.
+
+\subsection{Estado del arte}
+
+Hay muchos avances en la creación de nuevos modelos que resuelven diversos problemas específicos. Es importante notar que los modelos que se han desarrollado son especializados y no son de propósito general en el sentido de clasificar millones de objetos. El proceso de aprendizaje es completamente dirigido y los modelos se ajustan a un costo importante. La necesidad de grandes cantidades de datos con mayor resolución y detalle y la gran capacidad de procesamiento requerida para ajustar modelos especializados muestra los límites y al mismo tiempo las posibilidades.
+
+Los métodos de aprendizaje todavía siguen siendo un área de desarrollo utilizando métodos bayesianos como en \cite{oneshot} con enfoques no supervisados y que no requieren grandes cantidades de datos.
+
+Por otra parte el trabajo de Goodfellow en \cite{gan} ha generado gran atención con un acercamiento innovador donde dos redes neuronales compiten, una con el objetivo de generar nuevos datos que simulan ser los originales y la otra red debe inferir si el dato provisto por la primera, es original o es un dato generado. El objetivo finalmente es ajustar la red para producir datos que se distribuyen como los originales.
+
+El reto es y sigue siendo desarrollar modelos de inteligencia y aprendizaje generales, similares a las capacidades humanas, aunque hemos avanzado todavía estamos lejos de alcanzar la meta.
+
+Sigue siendo importante la creación de nuevos conjuntos de datos para entrenamiento, las competencias de ImageNet ha generado un ambiente propicio para la investigación con conjuntos de datos y un problema claro. Generar bases de datos para propiciar la investigación es una muy buena idea de entrada.
+
+El considerado abuelo del Aprendizaje Profundo Geoffrey Hinton \href{https://cacm.acm.org/news/221108-artificial-intelligence-pioneer-says-we-need-to-start-over/fulltext}{ha dicho} que está sospechando profundamente del método de propagación reversa y que para avanzar de forma importante se deben desarrollar nuevos métodos. Cita a Max Planck diciendo que,
+\begin{quotation}
+La ciencia progresa un funeral tras otro.
+\end{quotation}
+
+Para finalizar dice,
+\begin{quotation}
+El futuro depende de un estudiante que está sospechando profundamente de todo lo que he dicho.
+\end{quotation}

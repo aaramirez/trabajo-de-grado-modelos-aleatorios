@@ -1,0 +1,38 @@
+% !Rnw root = 000proyecto.Rnw
+
+Nosotros, los abajo firmantes, designados por la Universidad Central de Venezuela como
+integrantes del Jurado Examinador del Trabajo de Grado de Maestr\'ia titulado ``\textbf{Estudio de los métodos de aprendizaje estadístico provistos por Amazon Web Services e implementación de Redes Neuronales Convolucionales para el reconocimiento de patrones visuales con Amazon Deeplens}'', presentado por el \textbf{Ing. Alexander A. Ramírez M.}, titular de
+la C\'edula de Identidad \textbf{10.488.134}, certificamos que este trabajo cumple con los
+requisitos exigidos por nuestra Magna Casa de Estudios para optar al título de
+\textbf{Magister Scientiarum Mención Modelos Aleatorios}.
+
+%%%%NO USAR EN TESIS DE POSTGRADO%%%%%%%%
+
+\vspace{2cm}
+
+\begin{center}
+\underline{\hspace{8cm}}
+
+\vspace{1cm}
+
+\textbf{ Dr. Ricardo Ríos \\Tutor}
+
+\vspace{2cm}
+
+\underline{\hspace{8cm}}
+
+\vspace{1cm}
+
+\textbf{ Dra. Mairene Colina \\Jurado}
+
+\vspace{2cm}
+
+\underline{\hspace{8cm}}
+
+\vspace{1cm}
+
+\textbf{ Dra. Elvia Flores \\Jurado}
+
+\end{center}
+
+\newpage

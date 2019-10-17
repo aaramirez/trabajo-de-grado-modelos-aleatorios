@@ -1,0 +1,283 @@
+% !Rnw root = 000proyecto.Rnw
+
+\newpage
+
+\chapter{Metodología}
+
+Desde el punto de vista metodológico hemos realizado las actividades de forma ordenada partiendo de las bases de datos que se van a utilizar, el ajuste de modelos de aprendizaje con Redes Neuronales Convolucionales para identificar objetos en imágenes, implementación de modelos de detección de objetos en Amazon Deeplens, repaso de las posibles aplicaciones y cómo se puede utilizar la plataforma de Amazon para desplegar los modelos.
+
+Para cada modelo que hemos trabajado se ha escrito un cuaderno de notas que recoge todos los pasos para ajustar los modelos. Estos detalles los hemos dejado en los apéndices ya que reflejan los aspectos más prácticos y concretos de la implementación de modelos de aprendizaje con Python.
+
+Para ajustar los modelos se utilizó una computadora personal Mac Book Pro 2017 con un procesador de 3,1 GHz Intel Core i7 y 16Gb de RAM.
+
+Iniciemos haciendo una breve descripción de los datos utilizados.
+
+\section{Bases de Datos}
+
+Para realizar el trabajo hemos utilizado dos conjuntos de datos MNIST en \cite{MNIST} y CIFAR en \cite{CIFAR}. Ambas bases de datos de imágenes son referencias para realizar experimentos e investigación sobre detección de objetos en imágenes. La selección de ambas bases de datos se debe a que son manejables por un computador personal desde el punto de vista del almacenamiento y el procesamiento.
+
+\subsection{\href{http://yann.lecun.com/exdb/mnist/}{MNIST}}
+
+La base de datos de imágenes MNIST consiste en un conjunto de entrenamiento de 60 mil imágenes de dígitos escritos a mano y un conjunto de prueba de 10 mil imágenes. Los dígitos se normalizaron en tamaño y están centrados en una imagen de tamaño $28\times 28$.
+
+La base de datos fue creada para probar algoritmos de aprendizaje y métodos de reconocimiento de patrones sin requerir grandes esfuerzos de pre procesamiento y formateo.
+
+Las imágenes se proveen en archivos comprimidos con las características siguientes:
+\begin{itemize}
+\item train-images-idx3-ubyte.gz:  conjunto de entrenamiento (9,9Mb).
+\item train-labels-idx1-ubyte.gz:  etiquetas del conjunto de entrenamiento (28,8k).
+\item t10k-images-idx3-ubyte.gz:   conjunto de prueba (1,65Mb).
+\item t10k-labels-idx1-ubyte.gz:   etiquetas del conjunto de prueba (4,5k).
+\end{itemize}
+
+Este conjunto de datos se ha utilizado extensamente en la biliografía y la investigación sobre identificación de patrones en imágenes, en \ref{mnistimg} se puede ver un ejemplo de las imágenes que hay en la base de datos.
+
+\begin{figure}[h!]
+  \scalebox{0.8}{\includegraphics{img/mnist.png}}
+  \caption{Base de datos de dígitos escritos a mano MNIST}
+  \label{mnistimg}
+\end{figure}
+
+\subsection{\href{https://www.cs.toronto.edu/~kriz/cifar.html}{CIFAR}}
+
+La base de datos CIFAR-10 está conformada por 60 mil imágenes a color, correspondientes a 10 clases, de dimensión $32\times 32$ de las cuales hay 6 mil por cada clase. Hay 50 mil imágenes en el conjunto de entrenamiento y 10 mil imágenes en el conjunto de prueba. El conjunto de datos está dividido en seis lotes de 10 mil imágenes. El conjunto de entrenamiento cuenta con  mil imágenes de cada clase ordenadas aleatoriamente.
+
+Las clases de la base de datos son las siguientes:
+\begin{itemize}
+\item Aeroplano
+\item Automóvil
+\item Pájaro
+\item Gato
+\item Venado
+\item Perro
+\item Rana
+\item Caballo
+\item Barco
+\item Camión
+\end{itemize}
+
+Las clases son excluyentes mutuamente y no hay solapamiento entre las clases.
+
+\begin{figure}[h!]
+  \scalebox{0.8}{\includegraphics{img/cifar.png}}
+  \caption{Base de datos de objetos}
+  \label{cifarimg}
+\end{figure}
+
+\section{Ajuste de Redes neuronales}
+
+En el apéndice \ref{chap:linearlmodel} y a modo de ejemplo didáctico hemos escrito un ejemplo de cómo se realiza el proceso de estimación y ajuste a un conjunto de datos lineales generados manualmente.
+
+Se generaron los datos a partir de una función lineal $f(x)=2x-10$ y se hace un modelo que muestra paso a paso el proceso de estimación y ajuste de un perceptrón simple, que es la Red Neuronal más pequeña y así mostrar cómo se comporta una neurona.
+
+Se definen las funciones de ayuda para realizar el proceso, entre ellas,
+\begin{itemize}
+\item \texttt{linear} es la función de activación.
+\item \texttt{forward} es la fase de estimación que le aplica la función de activación a la entrada multiplicada por el parámetro y se suma el sesgo.
+\item \texttt{backward} es la fase de ajuste del parámetro mediante el descenso del gradiente, que utiliza la tasa de aprendizaje \textbf{alpha} y el gradiente. El gradiente es la derivada de la función de error con respecto al parámetro, que en nuestro caso es la función de error cuadrático.
+\item \texttt{error} es la función que calcula el error cuadrático entre el valor estimado y el valor observado en los datos.
+\end{itemize}
+
+Además se programa un ciclo que realiza el proceso de estimación y ajuste hasta que se alcanza el nivel de error aceptable.
+
+El ciclo consiste en:
+\begin{itemize}
+\item Realizar el paso de estimación denominado \texttt{forward} que combina la entrada y el peso $w1$ y le suma el sesgo $b1$, para luego aplicar la función de activación.
+\item Se calcula el error cuadrático entre el valor estimado en la fase previa y el valor observado mediante la función \texttt{error}.
+\item Calcular los gradientes, que consiste en calcular el valor de la derivada de la función de error con respecto a los parámetros $w1$ y con respecto a $b1$.
+\item Aplicar el paso de ajuste \texttt{backward} que aplica el descenso del gradiente para obtener los nuevos valores de los parámetros.
+\item Se almacenan los valores obtenidos para graficar los resultados.
+\end{itemize}
+
+En el modelo se logra obtener los parámetros de acuerdo al proceso de generación de los datos y el proceso converge alrededor de la iteración $50$.
+
+Este ejemplo muestra el proceso que se sigue en el ajuste de cualquier red neuronal y es el mismo para el resto de las arquitecturas salvo que se agregan nuevas técnicas para mejorar el ajuste de los modelos y su desempeño.
+
+\section{Ajuste de Redes Neuronales Convolucionales}
+
+Para realizar el ajuste de las Redes Neuronales Convolucionales hemos utilizado la librería y ambiente de desarrollo de algoritmos de aprendizaje profundo \href{https://keras.io/}{keras} programadas en Python.
+
+Partiendo de la base de datos MNIST y CIFAR de imágenes de dígitos escritos a mano e imágenes de objetos, se realizó el ajuste de una Red Neuronal Convolucional con cada conjunto de datos y se siguieron los pasos siguientes:
+\begin{itemize}
+\item Incluir librerías y definir parámetros.
+\item Cargar los datos.
+\item Ajustar los datos.
+\item Definir el modelo en Keras.
+\item Ajustar el modelo.
+\item Evaluar el modelo.
+\end{itemize}
+
+Se crea la matriz de confusión en cada caso y se observan particularidades en los datos.
+
+En el apéndice \ref{chap:mnistkeras} se incluye todo el programa que realiza el ajuste y se explica paso a paso el proceso siguiendo los pasos descritos. En el caso de MNIST y siguiendo las fuentes y ejemplos en la documentación oficial de \href{https://keras.io/}{keras} ajustamos un modelo con dos Capas de Convolución de 32 y 64 mapas de características respectivamente, con kernel de $3\times 3$ y ReLU como función de activación. Luego se aplica una Capa de Sub muestraje con ventana de $2\times 2$ y finalmente una red reuronal conectada con 128 neuronas.
+
+Para el modelo se utiliza la entropía, Adadelta como algoritmo de optimización y la métrica es la exactitud. El modelo ajustado tiene una exactitud de 99\% con los datos de prueba.
+
+En el apéndice \ref{chap:cifarkeras} se muestra el cuaderno de notas donde se realiza ajuste de una Red Neuronal Convolucional con los datos CIFAR-10 utilizando una arquitectura similar, pero con más Capas de Convolución y más Capas de Sub muestraje.
+
+De nuevo se hace un proceso detallado paso a paso del proceso de obtención de los datos, creación del modelo, ajuste, pruebas y generación de métricas de desempeño.
+
+\section{Implementación de una Red neuronal convolucional en Amazon Deeplens}
+
+Partiendo de la documentación provista por Amazon se activó un modelo pre entrenado de reconocimiento de objetos basado en un modelo de \textbf{MxNet} en \cite{mxnet}.
+
+\subsection{Activar y Configurar AWS DeepLens}
+
+El dispositivo Amazon Deeplens está hecho de tal manera que se protege la forma como se despliegan los proyectos y se establecen políticas de seguridad para evitar la manipulación maliciosa de los dispositivos y sus resultados.
+
+Es por ello que se realiza un proceso de activación del dispositivo en la plataformna de Amazon, que sigue los pasos siguientes:
+
+\subsubsection{Ingreso}
+
+Luego de ingresar a la cónsola de AWS con sus credenciales personales hay que buscar el servicio Amazon Deeplens utilizando la barra de búsqueda como se puede ver en \ref{busqueda}.
+
+Luego aparece la pantalla de gestión de dispositivos donde se inicia el registro presionando el botón \textbf{Registrar el dispotivo} como se puede ver en la imagen \ref{registro}.
+
+\begin{figure}[h!]
+  \scalebox{1}{\includegraphics{img/deeplens-conf/0001busqueda.png}}
+  \caption{Deeplens en cónsola de AWS}
+  \label{busqueda}
+\end{figure}
+
+
+\begin{figure}[h!]
+  \scalebox{0.5}{\includegraphics{img/deeplens-conf/0002registro.png}}
+  \caption{Registro del dispositivo}
+  \label{registro}
+\end{figure}
+
+
+\subsubsection{Selección de dispositivo y configuración}
+
+Amazon Deeplens ya lanzó una segunda versión y es por ello que es necesario identificar la versión del dispositivo para iniciar el proceso de configuración como se muestra en la imagen \ref{version}. Luego aparece la pantalla de configuración, como en la imagen \ref{config}, donde se asigna un nombre al dispositivo, se asignan los permisos para gestionar dispositivos Deeplens y se genera y descarga el certificado de conexión del dispositivo.
+
+Este certificado luego se coloca en el dispositivo directamente para que se pueda comunicar con Amazon de forma segura.
+
+\begin{figure}[h!]
+  \scalebox{0.5}{\includegraphics{img/deeplens-conf/0003disp.png}}
+  \caption{Selección de la versión del dispositivo}
+  \label{version}
+\end{figure}
+
+\begin{figure}[h!]
+  \scalebox{0.8}{\includegraphics{img/deeplens-conf/0004conf.png}}
+  \caption{Configuración del dispositivo}
+  \label{config}
+\end{figure}
+
+Después de configurar los parámetros puede continuar el proceso y ahora corresponde realizar la configuración del dispositivo fuera de línea. Es decir, se enciendo una red wifi en el dispotivos para conectarnos directamente en una red privada y aparece la pantalla \ref{wifi} y la pantalla \ref{wificonf} donde se establece la configuración de la red wifi que el dispositivo va a utilizar, se configura el certificado de conexión y se establece una clave de acceso.
+
+\begin{figure}[h!]
+  \scalebox{0.8}{\includegraphics{img/deeplens-conf/0005confend.png}}
+  \caption{Permisos y certificados de conexión}
+  \label{configend}
+\end{figure}
+
+\begin{figure}[h!]
+  \scalebox{0.8}{\includegraphics{img/deeplens-conf/0006conexdisp.png}}
+  \caption{Conexión vía WiFi al dispositivo para configurar certificado}
+  \label{wifi}
+\end{figure}
+
+Este proceso aunque muy seguro, es muy engorroso y no es fluido en el sentido de que mientras se realizan los pasos hay errores que implican iniciar de nuevo. Finalmente se confirma la configuración y ahora aparece el dispositivo activado en la cónsola de AWS como en la imagen \ref{wificonfend}.
+
+Si hay alguna actualización del dispositivo pendiente entonces esta se realiza inmediatamente y como se muestra en la imagen \ref{activado} aparece registrado y en línea.
+
+\begin{figure}[h!]
+  \scalebox{0.8}{\includegraphics{img/deeplens-conf/0007wificertclave.png}}
+  \caption{Configuración de WiFi, certificado y clave}
+  \label{wificonf}
+\end{figure}
+
+\begin{figure}[h!]
+  \scalebox{0.8}{\includegraphics{img/deeplens-conf/0008registroact.png}}
+  \caption{Final de la configuración del dispositivo}
+  \label{wificonfend}
+\end{figure}
+
+\begin{figure}[h!]
+  \scalebox{0.8}{\includegraphics{img/deeplens-conf/0009activado.png}}
+  \caption{Deeplens activado}
+  \label{activado}
+\end{figure}
+
+Sólo después de estos pasos de configuración del dispositivo, permisos, credenciales y acceso a las redes es que es posible implementar un modelo.
+
+Cabe destacar que la configuración del WiFi es estática. El dispositivo no va a aparecer activado si se conecta a través de otra red. De hecho si se desea implementar un modelo en el dispositivo desde otra red WiFi, entonces hay que hacer todo el proceso de nuevo desde el principio.
+
+\subsection{Implementación de identificación de objetos en Deeplens}
+
+Una vez que el dispositivo está activo y en línea entonces es posible implementar los modelos. El proceso es realmente sencillo y consiste en escoger el modelo que se desea como en \ref{seleccion}, se selecciona el o los dispositivos a los cuales se desea implementar el modelo, esto es interesante ya que se pueden desplegar modelos entrenados de forma masiva desde esta cónsola, como se ve en la imagen \ref{despliegue}. El paso de confirmación es de los más importantes ya que se advierte que el despliegue utiliza recursos que son pagos en la plataforma de Amazon y que se realizarán los cargos respectivos, se confirma la selección y se despliega como en \ref{despliegueend}.
+
+\begin{figure}[h!]
+  \scalebox{0.8}{\includegraphics{img/deeplens-conf/0010proyecto.png}}
+  \caption{Selección de proyecto de detección de objetos}
+  \label{seleccion}
+\end{figure}
+
+\begin{figure}[h!]
+  \scalebox{0.8}{\includegraphics{img/deeplens-conf/0011despliegue.png}}
+  \caption{Despliegue del proyecto en los dispositivos seleccionados}
+  \label{despliegue}
+\end{figure}
+
+\begin{figure}[h!]
+  \scalebox{0.8}{\includegraphics{img/deeplens-conf/0012confirmacion.png}}
+  \caption{Confirmación de despliegue}
+  \label{confirmacion}
+\end{figure}
+
+\begin{figure}[h!]
+  \scalebox{0.8}{\includegraphics{img/deeplens-conf/0013end.png}}
+  \caption{Proyecto desplegado en el dispositivo}
+  \label{despliegueend}
+\end{figure}
+
+Una vez que el modelo está implementado se puede ver el resultado del modelo en una pantalla conectada al dispositivo a través de una conexión en la nube. Hay una referencia para trabajar con \href{https://github.com/awsdocs/aws-deeplens-user-guide/blob/master/doc_source/deeplens-sample-projects.md}{proyectos tipo} en Deeplens.
+
+Todo este proceso está muy bien documentado en \cite{AWS DeepLens Developer Guide}.
+
+\subsection{Explorar los casos de uso y métodos de ejemplo con enfoque didáctico}
+
+Hay diversos casos de uso que cruzan los servicios de Inteligencia Artificial ofrecidos por Amazon con otros servicios de infraestructura en la nube.
+
+Los casos de uso que hemos visto implementados son los siguientes:
+\subsubsection{Lectura de contenidos}
+Hay una aplicación disponible que toma las imágenes de la cámara, las envía al servicio de reconocimiento de caracteres de Amazon para convertirla en texto y luego la convierte en audio que se reproduce en el dispositivo. Lo interesante es cómo se utilizan el resto de los servicios que hemos visto para ensamblar una solución.
+
+\subsubsection{Juegos interactivos y educativos}
+Se puede programar Deeplens para que reproduzca audio que realiza preguntas y las respuestas consisten en mostrar imágenes al dispositivo. De nuevo se combina la funcionalidad de texto a voz y además el reconocimiento de objetos en imágenes para ensamblar un juego interactivo.
+
+\subsubsection{Seguridad}
+El dispositivo se puede programar para reconocer rostros y al colocarlo en la entrada de la casa, si no reconoce el rostro del visitante entonces envía una alerta por SMS. El reconocimiento de rostros tiene muchas aplicaciones de seguridad y control, también es controversial su uso en espacios públicos.
+
+Se pueden realizar aplicaciones que registran los visitantes, las entradas y salidas, entre otras aplicaciones.
+
+\subsubsection{Análisis de sentimientos}
+Se puede detectar el ánimo de las personas mediante sus rostros y a partir de ahí generar información sobre el ánimo de la audiencia en una conferencia.
+
+\subsubsection{Mercadeo}
+Una vez que se reconocen las personas entonces se muestra un anuncio que se adecue a sus gustos y necesidades.
+
+Lo más interesante es que además de las posibilidades que ofrece la cámara, también se pueden integrar otros servicios que permiten ensamblar soluciones completas.
+
+\subsection{Aplicación de algoritmos de aprendizaje o inferencia própios o de terceros con Amazon SageMaker}
+
+Afortunadamente hay mucha documentación que describe los pasos necesarios para implementar un algoritmo propio y hemos conseguido varias fuentes de información que facilitan todo el proceso y permite, a cualquier persona interesada, avanzar en el uso de los servicios provistos por Amazon.
+
+El modelo que hemos implementado en la cámara parte de un modelo pre entrenado provisto por \textbf{MxNet} denominado \href{https://github.com/apache/incubator-mxnet/tree/master/example/ssd/}{SSD: Single Shot MultiBox Object Detector}. Este modelo utiliza ResNet como base y genera las cajas que aparecen en la imagen identificando los objetos detectados. Este es el modelo que se desplegó en el dispositivo. El resultado del modelo se puede apreciar en la imagen \ref{SSD}.
+
+\begin{figure}[h!]
+  \scalebox{0.8}{\includegraphics{img/SSD.png}}
+  \caption{Detección de objetos}
+  \label{SSD}
+\end{figure}
+
+En el \href{https://github.com/aws-samples/amazon-sagemaker-object-detection-from-scratch}{tutorial sobre detección de objetos} se puede seguir paso a paso la implementación de un modelo en el dispositivo. Este proceso amerita la configuración de espacio de almacenamiento y el uso de SageMaker para entrenar y luego desplegar el modelo. Finalmente se crea la estructura que permite desplegarlo en el dispositivo.
+
+Dentro de la documentación que hemos revisado están los \href{https://github.com/awsdocs/aws-deeplens-user-guide/blob/master/doc_source/deeplens-sample-projects.md}{proyectos de ejemplo} que hemos desplegado y que sirven de referencia para profundizar, además están los \href{https://github.com/awslabs/amazon-sagemaker-examples}{proyectos de ejemplo de SageMaker} que muestran cada uno de los algoritmos disponibles y cómo se pueden utilizar.
+
+\textbf{MxNet} cuenta con muchos \href{https://github.com/apache/incubator-mxnet/tree/master/example}{ejemplos} que sirven como punto de partida para implementar modelos y soluciones, además, como ya hemos mencionado, SageMaker permite la implementación de estos modelos en la nube. El \href{https://github.com/apache/incubator-mxnet}{repositorio principal} también ofrece información muy útil para implementar modelos de \textbf{MxNet} en otros lenguajes como R, entre otros.
+
+Cabe destacar que cada uno de estos algoritmos amerita el pago del almacenamiento de la entrada y la salida, el entrenamiento del modelo y el despliegue de un servicio web que realiza las inferencias. Hay que ser cuidadoso en el uso de estos servicios para evitar cargos adicionales.
+

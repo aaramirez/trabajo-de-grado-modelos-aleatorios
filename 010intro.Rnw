@@ -1,0 +1,62 @@
+% !Rnw root = 000proyecto.Rnw
+
+\chapter*{Introducción}
+
+El trabajo de grado consiste en la investigación documental y práctica del estado del arte en la aplicación de algoritmos de Aprendizaje estadístico provistos por Amazon para desarrollar una práctica que permita implementar soluciones a problemas que plantea la industria, así como conocer los límites de dichos servicios y plantearnos nuevas líneas de investigación que complementen la oferta de servicios actual.
+
+Este trabajo pretende estudiar los modelos ofrecidos a través de las herramientas provistas por Amazon, así como desarrollar metodologías y prácticas para implementar servicios a empresas que aplican dichos modelos y algoritmos de aprendizaje estadístico, a través de los servicios e infraestructura en la nube provistos por Amazon.
+
+La aplicación de métodos para reconocer patrones, inferir y clasificar partiendo de los datos, se están popularizando en todas las industrías. En este sentido las grandes empresas proveedoras de tecnología están ofreciendo opciones para implementar algunos de estos métodos y algoritmos en la nube, accesibles a través de internet y sin necesidad de implementar capacidad de procesamiento y almacenamiento propios, mediante granjas de servidores.
+
+Estos servicios ofrecidos en la nube permiten, a las empresas proveedoras de soluciones, implementar aplicaciones que reciben los datos, los preprocesan, los consumen, generan modelos y se ajustan, para luego predicir, reconocer patrones y clasificar. Estos servicios estandarizan la forma de aplicar modelos de aprendizaje basado en los datos y permiten su aplicación de forma inmediata.
+
+Amazon es una empresa que inicia en el año 1997 como un portal de comercio electrónico, es una de las pocas que ha sobrevivido luego de la crisis de las empresas punto com entre 1999 y el año 2000. Lo curioso de esta empresa es que para sostener un negocio de comercio electrónico global desarrolló grandes motores de aprendizaje estadístico para ofrecer recomendaciones a sus usuarios de forma oportuna. Estas aplicaciones requieren gran capacidad de cómputo y almacenamiento, Amazon las desarrolla para su propio uso y luego empieza a ofrecerlas como servicios a través de su plataforma Amazon Web Services (AWS).
+
+Ahora es posible implementar un servidor o una base de datos sin necesidad de comprarlo y sin necesidad de implementar toda la infraestructura necesaria para instalar el servidor como: espacio acondicionado y climatizado, acceso a internet, gabinetes, electrícidad, UPS, entre otros. Amazon a través de AWS ofrece infraestructura que se paga en la medida de la capacidad que se consume, también conocido como Software como Servicio \textit{Software as a Service - SaaS} y Plataforma como Servicio \textit{Platform as a Service - PaaS}.
+
+Este modelo de negocio permite a los usuarios la oferta de servicios de forma flexible y elástica, ya que la infraestructura en la nube crece de acuerdo a las necesidades y se adapta a la estacionalidad. Cuando se implementa la infraestructura de servidores propia, esta se debe dimensionar para soportar la mayor carga posible durante el año y es usual que el resto del año dicha capacidad esté ociosa, generando costos de inversión altos. Una de las ventajas de los servicios de AWS es que son elásticos y se pagan en la medida en que se utilizan.
+
+Sobre esta plataforma de servicios en la nube se implementan muchos servicios útiles para los desarrolladores de aplicaciones, entre ellos los servicios de Aprendizaje Automático que consisten en la implementación de modelos y algoritmos de aprendizaje estadístico.
+
+\subsection*{\href{https://aws.amazon.com/es/machine-learning/?nc2=h_l3_ai}{AWS - Aprendizaje Automático}}
+
+Entre \href{https://aws.amazon.com/es/documentation/?nc2=h_ql_d&awsm=ql-5}{los servicios que ofrece AWS relacionado con las técnicas de aprendizaje estadístico se encuentran}: Apache MXNet en AWS, Amazon Comprehend, AMI de aprendizaje profundo de AWS, AWS DeepLens, Amazon Lex, Amazon Machine Learning, Amazon Polly, Amazon Rekognition, Amazon SageMaker, Amazon Transcribe y Amazon Translate.
+
+Otros proveedores como Google, Microsoft e IBM ofrecen sus propias soluciones.
+
+\subsection*{\href{https://cloud.google.com/products/}{Google}}
+
+\begin{itemize}
+\item \href{https://cloud.google.com/products/machine-learning/}{AI en la Nube}
+\item \href{https://cloud.google.com/ml-engine/}{Motor de Aprendizaje Automatizado en la Nube}
+\end{itemize}
+
+\subsection*{\href{https://azure.microsoft.com/es-mx/}{Microsoft Azure}}
+
+\begin{itemize}
+\item \href{https://azure.microsoft.com/en-us/overview/ai-platform/}{Azure AI}
+\item \href{https://azure.microsoft.com/en-us/services/#ai-machine-learning}{AI + Aprendizaje Automatizado}
+\item \href{https://azure.microsoft.com/en-us/services/machine-learning-services/}{Servicios de Aprendizaje Automatizado}
+\end{itemize}
+
+\subsection*{\href{https://www.ibm.com/us-en/?lnk=m}{IBM Bluemix, Analítica y Watson}}
+
+\begin{itemize}
+\item \href{https://console.bluemix.net/catalog/?category=watson}{Bluemix Watson}
+\item \href{https://www.ibm.com/analytics/machine-learning}{Ciencia de los Datos y Aprendizaje Automatizado}
+\item \href{https://www.ibm.com/cloud/machine-learning}{Aprendizaje Automatizado con Watson}
+\end{itemize}
+
+Adicionalmente a los proveedores de soluciones se encuentran las herramientas que implementan los modelos, entre ellas: Tensorflow, Keras, Caffee, Pytorch, Spark MLlib, scikit learn, xgboost, SPSS, R y la comunidad que aporta paquetes y librerías.
+
+Debido a la gran diversidad de problemas, existe una variedad de opciones que bien valen la pena ser estudiadas y al mismo tiempo permiten desarrollar soluciones con los últimos avances logrados en la academia y en la industria.
+
+En Junio del 2018, Amazon lanza "La primera cámara de vídeo del mundo con aprendizaje profundo para desarrolladores". Es el kit para desarrolladores con una cámara de alta definición denominado \href{https://aws.amazon.com/es/deeplens/?nc2=h_m1}{AWS DeepLens}.
+
+\begin{quotation}
+AWS DeepLens es un conjunto de herramientas integradas (kit) para desarrolladores con cámara de alta definición conectada con un conjunto de proyectos de muestra para ayudar a los desarrolladores a aprender conceptos de aprendizaje automático mediante casos de uso de visión artificial prácticos. AWS DeepLens está preconfigurado para funcionar con varios servicios de AWS con el objetivo de ofrecer un marco de trabajo de aprendizaje profundo que esté optimizado para AWS DeepLens, por lo que es sencillo crear aplicaciones de visión artificial. Si bien AWS DeepLens tiene capacidad suficiente para los expertos, también está diseñado para ayudar a todos los desarrolladores a empezar a trabajar rápidamente con poca o nula experiencia en aprendizaje profundo.
+\end{quotation}
+
+En este sentido queremos explorar las capacidades ofrecidas por este kit con un enfoque doble: en primer lugar entender la oferta de AWS, en el entendido que ofrecen opciones de gran avance tecnológico que vale la pena estudiar y en segundo término, partiendo de la oferta de AWS implementar soluciones y sobre ellas realizar aportes y mejoras. En este sentido el desarrollo académico puede partir del avance que ya otros han logrado y sobre estos desarrollar nuevos modelos.
+
+

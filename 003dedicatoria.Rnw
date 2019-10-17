@@ -1,0 +1,20 @@
+% !Rnw root = 000proyecto.Rnw
+
+\vspace*{2.5cm}
+
+\begin{center}
+{\large Dedicatoria}
+\end{center}
+\vspace{1cm}
+
+\hspace*{0.4 cm} A mi esposa Zulay Duarte por estar ahí en todo momento y apoyarme en todo lo que me propongo, por la paciencia y por la comprensión. Soy afortunado de que seas mi compañera de vida.
+
+\hspace*{0.4 cm} A mis hijos que me inspiran a ser mejor y por darme tantas razones todos los días de sentirme orgulloso. Para alcanzar algo sólo deben quererlo realmente.
+
+\hspace*{0.4 cm} A mis hermanos, mis compañeros de toda la vida. Los que realmente me conocen y me quieren como soy. A mis sobrinos que me llenan de cariño. Sigan sus sueños.
+
+\hspace*{0.4 cm} A mis amigos, los hermanos que la vida me dió. A los que están cerca y a los que no.
+
+\hspace*{0.4 cm} En especial a mi mamá Estrella Morales, has sembrado en mí tantas cosas que hoy sin darme cuenta están ahí gracias a tí. Soy el resultado de todos tus sacrificios.
+
+\newpage

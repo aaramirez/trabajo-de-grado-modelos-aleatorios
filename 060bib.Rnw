@@ -1,0 +1,193 @@
+% !Rnw root = 000proyecto.Rnw
+
+\newpage
+
+\begin{thebibliography}{}
+
+%1
+\bibitem{russell-norvig}
+Artificial Intelligence A Modern Approach, 3rd Edition,
+Stuart J. Russell y Peter Norvig, Pearson, 2016.
+
+%2
+\bibitem{mccullochpitts}
+A Logical Calculus of Ideas Immanent in Nervous Activity,
+Warren McCulloch y Walter Pitts.
+
+%3
+\bibitem{rosemblatt}
+The Perceptron: A probabilistic model for information storage and organization in the brain.
+Frank Rosenblatt,
+Cornell Aeronautical Laboratory,
+Psychological Review, Vol. 65, No. 6, 1958.
+
+%4
+\bibitem{scalinglearning}
+Scaling Learning Algorithms towards AI,
+Large-Scale Kernel Machines,
+Yoshua Bengio y Yann LeCun,
+MIT Press, 2007
+
+%5
+\bibitem{hubelwiesel}
+Receptive fields of single neurones in the Cat's striate cortex,
+D. H. Hubel y T. N. Wiesel
+Wilmer Institute, The Johns Hopkins Hospital and University, Baltimore, Maryland, U.S.A.
+
+%6
+\bibitem{lecun-98}
+Gradient-Based Learning Applied to Document Recognition,
+Yann LeCun, Léon Bottou, Yoshua Bengio y Patrick Haffner.
+
+%7
+\bibitem{word2vect}
+\href{https://arxiv.org/abs/1301.3781}{Efficient Estimation of Word Representations in Vector Space},
+Tomas Mikolov, Kai Chen, Greg Corrado y Jeffrey Dean.
+
+%8
+\bibitem{DeepAR}
+\href{https://arxiv.org/abs/1704.04110}{DeepAR: Probabilistic Forecasting with Autoregressive Recurrent Networks},
+David Salinas, Valentin Flunkert, Jan Gasthaus.
+
+%9
+\bibitem{factormachines}
+Factorization Machines,
+Steffen Rendle,
+Department of Reasoning for Intelligence The Institute of Scientific and Industrial Research Osaka, University, Japan.
+
+%10
+\bibitem{imageclassification}
+\href{https://arxiv.org/abs/1512.03385}{Deep Residual Learning for Image Recognition},
+Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun.
+
+%11
+\bibitem{neuraltopic}
+\href{https://arxiv.org/pdf/1511.06038.pdf}{Neural Variational Inference for Text Processing},
+Yishu Miao, Lei Yu.
+
+%12
+\bibitem{FC-semanticseg}
+\href{https://arxiv.org/abs/1605.06211}{Fully Convolutional Networks for Semantic Segmentation},
+Evan Shelhamer, Jonathan Long y Trevor Darrell.
+
+%13
+\bibitem{PSPN-semanticseg}
+\href{https://arxiv.org/abs/1612.01105}{Pyramid Scene Parsing Network},
+Hengshuang Zhao, Jianping Shi, Xiaojuan Qi, Xiaogang Wang y Jiaya Jia.
+
+%14
+\bibitem{DeepLab-semanticseg}
+\href{https://arxiv.org/abs/1706.05587}{Rethinking Atrous Convolution for Semantic Image Segmentation}
+Liang-Chieh Chen, George Papandreou, Florian Schroff y Hartwig Adam.
+
+%15
+\bibitem{Hastie-et-al-2016}
+The Elements of Statistical Learning, Data Mining, Inference and Prediction, 2nd Edition,
+Trevor Hastie, Robert Tibshirani y Jerome Friedman, Springer, 2008.
+
+%16
+\bibitem{LecunNet}
+Object Recognition with Gradient-Based Learning,
+Yann Lecun, Patrick Haffner, Léon Bottou and Yoshua Bengio,
+ATT Shannon Lab, 100 Schulz Drive, Red Bank, NJ, 07701, USA.
+
+%17
+\bibitem{computervision}
+Deep Learning for Computer Vision,
+Rajalingappa Shanmugamani, Packt Publishing Ltd, 2018.
+
+%18
+\bibitem{AlexNet}
+ImageNet: Classification with Deep Convolutional Neural Networks,
+Alex Krizhevsky, Ilya Sutskever y Geoffrey E. Hinton,
+University of Toronto.
+
+%19
+\bibitem{MITAndrej}
+CS231n Convolutional Neural Networks for Visual Recognition,
+Andrej Karpathy,
+\href{http://cs231n.github.io/convolutional-networks/}{http://cs231n.github.io/convolutional-networks/}.
+
+\bibitem{MNIST}
+\href{http://yann.lecun.com/exdb/mnist/}{MNIST}.
+\href{http://yann.lecun.com/exdb/mnist/}{http://yann.lecun.com/exdb/mnist/}, Recolección realizada por Yann LeCun, Corinna Cortes y Christopher J.C. Burges.
+
+\bibitem{CIFAR}
+\href{https://www.cs.toronto.edu/~kriz/cifar.html}{CIFAR-10 y CIFAR-100}.
+\href{https://www.cs.toronto.edu/~kriz/cifar.html}{https://www.cs.toronto.edu/~kriz/cifar.html}, Recolección realizada por Alex Krizhevsky, Vinod Nair y Geoffrey Hinton.
+
+%22
+\bibitem{mxnet}
+MXNet: A Flexible and Efficient Machine Learning,
+Tianqi Chen, Mu Li, Yutian Li, Min Lin, Naiyan Wang, Minjie Wang,
+Tianjun Xiao, Bing Xu, Chiyuan Zhang, Zheng Zhang,
+Library for Heterogeneous Distributed Systems.
+
+%23
+\bibitem{AWS DeepLens Developer Guide}
+Amazon,
+\href{https://docs.aws.amazon.com/deeplens/latest/dg/what-is-deeplens.html}{\textit{AWS DeepLens Developer Guide}}.
+Seattle, USA, 2018.
+
+\bibitem{oneshot}
+One-Shot Learning of Object Categories,
+Li Fei-Fei, Member IEEE, Rob Fergus, Student Member IEEE, and Pietro Perona, Member IEEE,
+IEEE TRANSACTIONS ON PATTERN ANALYSIS AND MACHINE INTELLIGENCE, VOL. 28, NO. 4, APRIL 2006.
+
+\bibitem{gan}
+Generative Adversarial Networks,
+Goodfellow Ian, Pouget-Abadie Jean, Mirza Mehdi, Xu Bing, Warde-Farley David, Ozair Sherjil, Courville Aaron, Bengio Yoshua (2014),
+Proceedings of the International Conference on Neural Information Processing Systems (NIPS 2014). pp. 2672–2680.
+
+\bibitem{Goodfellow-et-al-2016}
+\href{http://www.deeplearningbook.org}{\textit{Deep Learning}},
+Ian Goodfellow, Yoshua Bengio y Aaron Courville, MIT Press, 2016.
+
+\bibitem{IntroToConvNets}
+Introduction to Convolutional Neural Networks,
+Jianxin Wu, LAMDA Group, National Key Lab for Novel Software Technology, Nanjing University, China.
+
+\bibitem{DerivBackpro}
+Derivation of Backpropagation in Convolutional Neural Network (CNN),
+Zhifei Zhang, University of Tennessee, Knoxvill, TN.
+
+\bibitem{pedestrian}
+Deep learning for pedestrians: backpropagation in CNNs,
+Laurent Boué, SAP Labs.
+
+\bibitem{visualizing}
+Visualizing and Understanding Convolutional Networks,
+Matthew D. Zeiler y Rob Fergus, Dept. of Computer Science, New York University, USA.
+
+\bibitem{evolutionary}
+Evolutionary Design of Deep Neural Networks
+Author: Alejandro Baldominos Gómez, Supervisors: Dr. Pedro Isasi Viñuela, Dr. Yago Sáez Achaerandio,
+Computer Science Department, Ph.D. Programme in Computer Science and Technology, Universidad Carlos III de Madrid, Leganés.
+
+\bibitem{computacioninteligente}
+Introducción a las Técnicas de Computación Inteligente,
+Editores: José Aguilar Castro y Francklin Rivas Echeverría, Universidad de Los Andes, Medida, Venezuela, Junio, 2001.
+
+\bibitem{Amazon SageMaker}
+Amazon,
+\href{https://aws.amazon.com/es/sagemaker/?nc2=h_a1}{\textit{Amazon SageMaker}}.
+Seattle, USA, 2018.
+
+\bibitem{Amazon SageMaker Documentation}
+Amazon,
+\href{https://aws.amazon.com/es/documentation/sagemaker/?id=docs_gateway}{\textit{Amazon SageMaker Documentation}}.
+Seattle, USA, 2018.
+
+\bibitem{DeepLens}
+Amazon,
+\href{https://aws.amazon.com/es/deeplens/}{\textit{AWS DeepLens}}.
+Seattle, USA, 2018.
+
+\bibitem{DeepLens Developer Resources}
+Amazon,
+\href{https://aws.amazon.com/es/deeplens/resources/}{\textit{AWS DeepLens Developer Resources}}.
+Seattle, USA, 2018.
+
+\end{thebibliography}
+
+\newpage

@@ -1,0 +1,125 @@
+% !Rnw root = 000proyecto.Rnw
+
+<<echo=FALSE>>=
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(gridExtra)
+@
+
+\newpage
+
+\chapter{Marco teórico}
+
+\section{Aprendizaje  estadístico}
+
+El aprendizaje estádistico ha tomado relevancia en áreas como la ciencia, tecnología, medicina y finanzas. Hoy en día se pueden resolver problemas como:
+\begin{itemize}
+\item Predecir si un paciente sufrirá una enfermedad basados en sus datos demográficos y los resultados de exámenes.
+\item Reconocer objetos o patrones visuales en imágenes.
+\item Realizar traducciones de texto.
+\item Generar subtítulos de forma automatizada en un video.
+\item Programar agentes automatizados e interactivos para ofrecer ayuda a los clientes.
+\item Predecir el desempeño de una empresa basados en sus indicadores económicos.
+\end{itemize}
+
+Las técnicas de aprendizaje nos proporcionan métodos para estimar programas que resuelven algún problema sin ser explícitamente programados, es por ello que estas técnicas se utilizan en el campo de la Inteligencia Artificial. Se puede hablar de una forma nueva de programar, partimos de conjuntos de datos que proporcionan información sobre algún problema que se desea resolver y se entrenan algoritmos de aprendizaje que realizan un ciclo de estimación, cálculo del error o distancia entre el valor estimado y el valor observado y optimización para ajustar los parámetros de una función que minimiza la distancia entre el valor estimado y el observado la cual nos va a permitir inferir sobre datos nuevos.
+
+Es decir, en lugar de programar la solución explícitamente vamos a aproximar una función que es capaz de llevar a cabo la actividad con un margen de error conocido en relación a los datos proporcionados.
+
+En un escenario usual contamos con los datos, una medición como el precio de un activo financiero o datos categóricos sobre la presencia de una enfermedad o no, basándonos en las características propias de cada dato, deseamos realizar inferencias sobre datos nuevos. En el proceso de aprendizaje se utilizan características conocidas de los datos y se pueden identificar o generar nuevas. Todas estas características proporcionan información que se utiliza para estimar el resultado y ajustar los parámetros del modelo hasta que logramos minimizar el error, sin sobreajustar o sesgar el modelo.
+
+Las técnicas de aprendizaje se clasifican en supervisado y no supervisado. El aprendizaje supervisado consiste en ajustar modelos partiendo de datos que están etiquetados, es decir, que cada dato tiene asociado el valor de la característica que queremos predecir. El aprendizaje no supervisado consiste en proporcionar los datos y sus características, sin incluir o sin conocer las características que se desean predecir.
+
+Los modelos de aprendizaje supervisado consisten en un proceso de entrenamiento que permite ajustar los parámetros del modelo mediante un proceso de optimización de una función que minimiza el error. Estos modelos plantean una distyuntiva entre el sesgo del modelo y el error aceptado. El sesgo indica que tan ajustado está el modelo a los datos observados y su capacidad para realizar inferencia sobre datos nuevos. En este caso los datos se dividen en dos conjuntos, uno de entrenamiento y otro de prueba, el primer conjunto de datos se utiliza para realizar el proceso de estimación y ajuste de parámetros y luego se prueba el modelo obtenido con el conjunto de datos de prueba. El aprendizaje se puede interpretar en este caso como el ajuste de parámetros de un modelo como resultado de un proceso de optimización que minimiza el error o maximiza los aciertos del modelo. Es un proceso de regresión, es decir, un proceso para conseguir una función que surge de los datos provistos. Vamos a seguir las definiciones realizadas en \cite{Hastie-et-al-2016}.
+
+Sea $X$ la variable de entrada que puede ser un valor o un vector de valores donde $X_i$ representa la $i$-ésima entrada y lo denotamos en minúsculas $x_i$ como el $i$-ésimo valor o dato observado que puede ser un escalar o un vector.
+En el caso que sea un $p$-vector este se denota como $x_i=[x_{i1},...,x_{ip}]$, donde $x_{ij}$ denota la $j$-ésima característica y $j=1,...,p$. Los datos se pueden representar en una matríz $\bf{X}$ de dimensión $N\times p$, es decir, está confirmada por $N$ $p$-vectores como se puede ver en \ref{eq:inputX},
+
+\begin{equation}
+\bf{X} = \begin{bmatrix}
+x_{11} & x_{12} & ... & x_{1p}\\
+x_{21} & x_{22} & ... & x_{2p}\\
+x_{31} & x_{32} & ... & x_{3p}\\
+\vdots & ... & ... & \vdots\\
+ x_{N1} & x_{N2} & ... & x_{Np}. \label{eq:inputX}
+\end{bmatrix}_{N\times p}
+\end{equation}
+
+El resultado provisto en los datos ya sea numérico lo denotamos con $Y$ o cualitativo como $G$ y los valores estimados como $\hat{Y}$ o $\hat{G}$.
+
+En el modelo de aprendizaje supervisado asumimos que contamos con los datos de entrenamiento $(x_i, y_i)$ o $(x_i, g_i)$ donde $i=1,...N$.
+
+A partir de estos datos vamos a contruir un modelo estadístico, primero vamos a considerar el caso de un resultado numérico y consideramos a $X$ como un vector aleatorio tal que $X\in\mathcal{R}^p$ y $Y\in\mathcal{R}$ una variable aleatoria real. Estamos interesados en conseguir una función $f(X)$ para predecir $Y$ dados los valores de entrada $X$.
+
+Nos interesa realizar un modelo capaz de predecir basándonos en una muestra de entrenamiento $(x_1,y_1),...(x_N,y_N)$. Es decir, el modelo produce $\hat{y}_i$ estimado para cada $x_i$ y el proceso de aprendizaje consiste en minimizar una función de pérdida $L(y,\hat{y})$, es decir, minimizar la distancia entre el valor estimado y el valor observado. Si suponemos que $(X,Y)$ son variables aleatorias representadas por una función de densidad conjunta $P(X,Y)$, entonces el aprendizaje supervisado se puede caracterizar como la estimación de una función de densidad, donde interesa conocer las propiedades de $P(Y\mid X)$. En este caso nos interesa conseguir los parámetros $\mu$ tal que para cada $x$:
+$$\mu(x) = argmin_{\theta} E_{Y|X}L(Y,\hat{Y}(\theta))$$
+
+Partiendo de las variables independientes, que son las características observadas, queremos estimar la variable dependiente mediante un modelo que minimize el error. En un modelo de regresión donde nos interesa estimar el precio de una acción entonces el valor a estimar es un número real o una cantidad, $y\in\mathbb{R}$. En un modelo de clasificación que nos indica cual dígito escrito a mano corresponde con una imagen vamos a ver que $y\in\{0, 1,...,9\}$, o en general $y\in\{g_1,..,g_k\}$ donde $g_i$ representa la clase $i$ a la cual pertenece el dato. Las clases también son denominadas categorías, variables discretas o factores. El resultado de un modelo de clasificación es una medida cualitativa, tanto la regresión como la clasificación tienen muchos elementos comunes, en ambos casos estamos aproximando una función estimadora de error mínimo.
+
+Desde el punto de vista del aprendizaje automatizado podemos suponer por simplicidad que los errores son aditivos y que el modelo aleatorio $Y=f(X)+\epsilon$ es un modelo razonable. El aprendizaje supervisado estima $f$ mediante un proceso de estimación y ajuste. Partimos de los datos de entrenamiento $(x_i,y_i), i=1,...,N$. Se proporciona $x_i$ como entrada al proceso de estimación que genera como resultado $\hat{y_i}$ y luego se realiza un ajuste de la estimación basándonos en la relación entre el valor estimado y el valor observado, es decir, se calcula el error o distancia $(y_i-\hat{y_i})$ entre $y_i$ y $\hat{y_i}=\hat{f}(x_i)$. Este es el proceso de aprendizaje donde se espera obtener una función de predicción que genera resultados suficientemente cercanos a los valores observados en los datos.
+
+El proceso de aprendizaje previo ha sido la motivación que guía la investigación de las técnicas de aprendizaje supervisado como el aprendizaje automatizado, basados en el razonamiento humano y la redes neuronales con analogías al cerebro humano. El acercamiento desde el punto de vista de la matemática y estadísticas es desde la perspectiva de la aproximación y estimación de funciones.
+
+Por otra parte el aprendizaje no supervisado consiste en trabajar con los datos, sin realizar ningún proceso de ajuste de parámetros a un resultado esperado. Sólo contamos con los datos $X$ y nos interesa conseguir relaciones entre estos datos que hagan emerger nuevas características. Es decir, para $N$ observaciones $(x_1,...,x_N)$ de un vector aleatorio $X$ con densidad conjunta $P(X)$, el objetivo es inferir propiedades sin información adicional.
+
+\subsection{Métricas de desempeño}
+
+Para entender el alcance y efectividad de un método de aprendizaje es necesario establecer las métricas que indicarán si el desempeño es el esperado. En los métodos de clasificación se desea contrastar el resultado inferido contra el resultado observado. Con esto en mente se realiza la división del conjunto de datos en datos de entrenamiento y datos de prueba. Se utilizan los datos de entrenamiento para estimar y ajustar el modelo y luego se utiliza el modelo ajustado para realizar inferencias sobre los datos de prueba.
+
+En el caso de un modelo de clasificación binario o dicotómico, primero vamos a colocar en una tabla los valores observados y los inferidos como en el cuadro \ref{confusion}. Tenemos cuatro casos:
+\begin{enumerate}
+\item Valores observados positivos y se infieren positivos, los denominamos $vp$ por verdaderos positivos.
+\item Valores observados negativos y se infieren positivos, los denominamos $fp$ por falsos positivos.
+\item Valores observados positivos y se infieren negativos, los denominamos $fn$ por falsos negativos.
+\item Valores observados negativos y se infieren negativos, los denominamos $vn$ por verdaderos negativos.
+\end{enumerate}
+
+\begin{table}[htb]
+\centering
+\begin{tabular}{|l|c|c|c|}
+\hline
+     &                          & \multicolumn{2}{|c|}{Observado}  \\ \hline
+     & Población                & Positivos   & Negativos         \\ \hline
+\multirow{2}{*}{Inferidos}   & Inferidos positivos & $vp$  & $fp$ \\
+                               & Inferidos negativos        & $fn$       & $vn$  \\ \hline
+\end{tabular}
+\caption{Matriz de confusión}
+\label{confusion}
+\end{table}
+
+A partir de esta matriz vamos a definir las métricas siguientes para medir la eficacia del modelo de inferencia.
+
+\subsubsection{Error}
+Es la proporción de la suma entre los falsos positivos y falsos negativos y los datos, el cálculo se realiza con la fórmula siguiente:
+\begin{equation}
+\text{Error}=\displaystyle\frac{fp+fn}{\text{Población}}.
+\label{metric-error}
+\end{equation}
+
+\subsubsection{Exactitud}
+Es la proporción de la suma entre los verdaderos positivos y los verdaderos negativos y todos los datos y lo calculamos con la fórmula siguiente:
+\begin{equation}
+\text{Exactitud}=\displaystyle\frac{vp+vn}{\text{Población}}.
+\label{metric-exactitud}
+\end{equation}
+
+\subsubsection{Precisión}
+Es la proporción entre los verdaderos positivos y todos los inferidos como positivos y la fórmula es la siguiente:
+\begin{equation}
+\text{Precisión}=\displaystyle\frac{vp}{vp+fp}.
+\label{metric-precision}
+\end{equation}
+
+\subsubsection{Sensibilidad - Recall}
+Es la proporción entre los verdaderos positivos y la suma entre los verdaderos positivos y los falsos negativos, la fórmula es como sigue:
+\begin{equation}
+\text{Sensibilidad}=\displaystyle\frac{vp}{vp+fn}.
+\label{metric-sensibilidad}
+\end{equation}
+
+
+
+
+
+
+

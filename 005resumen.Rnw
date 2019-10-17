@@ -1,0 +1,16 @@
+% !Rnw root = 000proyecto.Rnw
+
+\vspace*{2.5cm}
+
+\begin{center}
+{\large Resumen}
+\end{center}
+\vspace{1cm}
+
+\hspace{0.4cm} En este trabajo se estudiarán los servicios de Inteligencia Artificial y Aprendizaje estadísticos provistos por Amazon Web Services y se muestra una metodología de trabajo para aplicar dichos métodos utilizando grandes cantidades de datos.
+
+\hspace{0.4cm} En particular se estudiarán y se entrenará una Red Neuronal Convolucional para identificar patrones visuales y se implementará en el dispositivo Amazon Deeplens.
+
+Palabras clave: Aprendizaje estadístico, Aprendizaje Profundo, Redes Neuronales, Redes Neuronales Convolucionales, Amazon, AWS, Deeplens.
+
+\newpage

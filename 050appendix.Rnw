@@ -1,0 +1,20 @@
+% !Rnw root = 000proyecto.Rnw
+
+\newpage
+
+\appendix
+
+\chapter{Ajuste de un modelo lineal con un Perceptrón simple y descenso del gradiente}
+\label{chap:linearlmodel}
+
+\includepdf[page=-]{Lineal.pdf}
+
+\chapter{Ajuste de una Red Neuronal Convolucional con MNIST en Keras}
+\label{chap:mnistkeras}
+
+\includepdf[page=-]{MNIST-Keras.pdf}
+
+\chapter{Ajuste de una Red Neuronal Convolucional con CIFAR-10 en Keras}
+\label{chap:cifarkeras}
+
+\includepdf[page=-]{CIFAR-Keras-100.pdf}

@@ -1,0 +1,20 @@
+% !Rnw root = 000proyecto.Rnw
+
+\vspace*{2.5cm}
+
+\begin{center}
+{\large Agradecimiento}
+\end{center}
+\vspace{1cm}
+
+\hspace*{0.4 cm} A Dios, por ser la fuerza que guía lo que haga todo los días.
+
+\hspace*{0.4 cm} A la Facultad de Ciencias de la UCV y en especial a la Escuela de Matemática por contar con profesores que a pesar de las circunstancias siguen incólumes en mantenerla funcionando haciendo grandes sacrificios.
+
+\hspace*{0.4 cm} A mi tutor, el Doctor Ricardo Ríos, por todo su apoyo, por compartir tantos conocimientos y guíar la elaboración de este trabajo.
+
+\hspace*{0.4 cm} Al equipo de Synergy Vision que ha tenido la paciencia y me ha permitido seguir creciendo profesionalmente.
+
+\hspace*{0.4 cm} A mis socios José Ricardo Rivera y Alfredo Pereyra por su comprensión y paciencia en todas mis aventuras.
+
+\newpage

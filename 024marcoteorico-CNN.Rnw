@@ -1,0 +1,406 @@
+% !Rnw root = 000proyecto.Rnw
+
+<<echo=FALSE>>=
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(gridExtra)
+@
+
+
+\section{Visión por Computadora}
+
+En las ciencias de la computación hay una rama que se dedica a procesar imágenes digitales para obtener información de interés. Es un área multidisciplinada que utiliza técnicas de la matemática, estadística y la computación para extraer información de imágenes digitales de forma automatizada. Como plantea Shanmugamani en \cite{computervision} el objetivo es desarrollar técnicas que imiten las capacidades de la visión humana en una computadora.
+
+Las actividades de la visión por computadora son: adquisición, procesamiento, análisis y entendimiento de imágenes digitales. Entendimiento en este caso se refiere a la descripción del mundo, los objetos y sus relaciones a partir de las imágenes digitales.
+
+Existen diversos sensores que producen imágenes que pueden ser interpretadas por una computadora  mediante la geometría, física, estadistica y aprendizaje se pueden contruir modelos para realizar las tareas de la visión por computadora. Una de las técnicas que permite la extracción de información de imáges es el Aprendizaje Profundo.
+
+Las imágenes se pueden generar mediante procesos diversos como videos, secuencias de imágenes, cámaras en distintos ángulos, datos de un tomógrafo, ecosonograma, entre otros.
+
+Algunos de los problemas de la visión por computadora son:
+\begin{itemize}
+\item Reconocimiento de objetos,
+\item Clasificación de imágenes,
+\item Detección e identificación de rostros,
+\item Estimación de posturas,
+\item Detección de eventos.
+\end{itemize}
+
+Para lograr el entendimiento automático de imágenes se requiere el desarrollo de teorías y algoritmos que extraigan información y estructuren un modelo de los objetos y el mundo. Esta área se desarrolló a la par con el desarrollo de las computadoras desde 1960 y se pensaba que en poco tiempo ya contaríamos con agentes (robots) con capacidad para describir e interactuar con el mundo.
+
+Recientemente se ha visto el desarrollo y resurgimiento de los métodos basados en las técnicas de aprendizaje y optimización, en particular el desarrollo de las Redes Neuronales Profundas, que han logrado resultados que superan los métodos previos en tareas como la clasificación, entre otros.
+
+En el campo de la Inteligencia Artificial se han desarrollado métodos para el reconocimiento de patrones y la navegación autónoma de autos y robots. Para este propósito se requiere un entendimiento del entorno para navegarlo.
+
+\subsection{¿Qué es una imagen digital?}
+
+Una imagen está compuesta por pixeles que representan un punto indivisible en la pantalla. Cada punto en la imagen está representado por números que conforman el color y la transparencia. El color se representa como una combinación de colores primarios (Rojo, Verde y Azul) o en escala de grises como una valor entre blanco y negro.
+
+\begin{figure}[h]
+  \scalebox{0.8}{\includegraphics{img/imagen.png}}
+\caption{Características de una imagen digital}
+\label{imagen}
+\end{figure}
+
+Hay diversos formatos de imágenes que principalmente ofrecen mecanismos para comprimir la información sin pérdida significativa de la calidad de la imagen. En \ref{imagen} se puede apreciar una representación de una imagen digital como la conjunción de múltiples capas con valores numéricos que representan el color de cada punto.
+
+Los dos problemas fundamentales que se deben resolver para procesar las imágenes y extraer información son:
+\begin{itemize}
+\item Reducir la dimensión. En una imagen en escala de grises de 100x100 puntos se requieren 10 mil entradas en una red neuronal y si la primera capa tiene 1000 neuronas entonces necesitamos 10 millones de conexiones. Para implementar una Red Neuronal que procese imágenes digitales se requiere una gran capacidad de cómputo, además en \cite{LecunNet} Lecun et al. señalan que el tamaño de la muestra de entrenamiento debe ser muy grande y las Redes Neuronales sin estructura tienen la deficiencia de que no incorporan invarianza respecto a la traslación, cambios de escala o distorsiones geométricas.
+\item Extraer características en las imágenes. La extracción de características en las imágenes es distinto a la extracción de características en una Red Neuronal Profunda, ya que si se fija de forma arbitraria el orden de las entradas no afecta el proceso de aprendizaje, en el caso de las imágenes hay una estructura local y una alta correlación entre los puntos que son adyacentes.
+\end{itemize}
+
+Es decir, se debe poder reconocer un objeto, así esté estirado, movido, alargado, parcialmente oculto o en perspectiva y además se deben reconocer las características locales que luego se combinan para generar características más complejas, y entonces reconocer objetos en el espacio y el tiempo, mediante una composición de características simples a complejas.
+
+Las Redes Neuronales Convolucionales se desarrollan para resolver estos problemas.
+
+\section{Redes Neuronales Convolucionales}
+
+De acuerdo a Lecun at al. en \cite{LecunNet} y para asegurar algún grado de invarianza bajo traslaciones, escala o distorsiones, las Redes Neuronales Convolucionales combinan tres ideas principales:
+\begin{itemize}
+\item Campos visuales locales, estos funcionan como ventanas que recogen características.
+\item Parámetros compartidos (weight replication), veremos que en cada mapa de características se comparten los mismos parámetros, pesos y sesgo.
+\item Sub muestraje espacial, que reduce la dimensión del problema y evita el sobre ajuste por cantidad de parámetros.
+\end{itemize}
+
+A partir de esta definición se genera una nuevo campo de estudio donde se empiezan a diseñar arquitecturas de capas cada vez más profundas para resolver problemas de procesamiento de imágenes cada vez más complejos.
+
+Vamos a describir cada capa y sus características principales.
+
+\subsection{Capa de Convolución}
+
+La Capa de Convolución es la pieza más importante de las Redes Neuronales Convolucionales. En las Redes Neuronales cada neurona está conectada con todas las neuronas de la capa previa y de la siguiente capa. En el caso de las Redes Neuronales Convolucionales las neuronas de la primera capa está relacionada con los puntos de un pequeño rectángulo de la imagen de entrada y las neuronas de la segunda capa están conectadas a las neuronas en un pequeño rectángulo de la primera capa. De esta forma se dá importancia sólo a las características locales, lo cual es útil en el procesamiento de imágenes, como hemos dicho los puntos de la imagen están fuertemente correlacionados con los puntos que están en una vecindad, que son adjacentes.
+
+Siguiendo el proceso de las Redes Neuronales, en las primeras capas vamos a extraer características simples que se van a combinar en las capas siguientes para componer características más complejas.
+
+En el caso del procesamiento de imágenes con Redes Neuronales Lecun et al. en \cite{LecunNet} plantea el uso de campos de recepción que extraen características simples que luego se componen en más complejas. Estos campos de recepción se denominan kernel que se aplican a cada entrada para extraer información. Al aplicar el kernel a la entrada se genera un mapa de características que comparten los mismos parámetros de un kernel. Una Capa de Convolución se conforma entonces de múltiples mapas de características generandos mediante la operación de convolución entre la entrada y un kernel. La idea es que un kernel se especializa en detectar las mismas características sin importar donde se presentan en la entrada. Si un kernel tiene dimensión $5\times 5$ entonces está conformado por $25$ parámetros y a estos se le suma un parámetro adicional denominado sesgo. Un kernel es una matriz con valores de los parámetros que permiten extraer características al ser aplicados a la entrada de la capa previa. Estos parámetros se ajustan mediante un proceso de aprendizaje similar a la propagación reversa de las Redes Neuronales Multicapa. La Capa de Convolución se especializa en extraer características, sin importar donde se presentan, lo cual permite que sea invariante ante cambios de escala o posición.
+
+En la Capa de Convolución se define cual es el tamaño del kernel, el desplazamiento del kernel sobre la entrada y el relleno. La Capa de Convolución toma el kernel y lo aplica a la entrada realizando en barrido y realizando una operación de multiplicación de valores para generar el mapa de características. Se generan tantos mapas de características como kernel se definan en la capa, los mapas de características son el resultado de aplicar la Capa de Convolución a la entrada. Estos valores de definición de la Capa de Convolución se denominan hiperparámetros. El desplazamiento indica los saltos que se realizan durante el barrido de la entrada y el relleno indica si se desea agregar un borde de ceros a la entrada para preservar y no perder información en los bordes de la imagen. El barrido de la entrada se realiza colocando el kernel como un campo de recepción sobre la entrada y se aplica la operación de izquierda a derecha y de arriba a abajo como se aprecia en la imagen \ref{convolucion}.
+
+El cálculo se realiza mediante un proceso iterativo. Para calcular el valor de una neurona en la capa $l$ se toman mapas de características de la capa $l-1$ y se realiza la operación de convolución que consiste en realizar el producto componente por componente entre dos matrices, entre los valores del mapa de características y los valores correspondientes en el kernel. Hay tantos kernel como mapas de características se desean generar y si hacemos la analogía con las Redes Neuronales los kernel son los parámetros que se ajustan, sólo que esta vez están agrupados en matrices. En la figura \ref{convolucion} se puede apreciar el recorrido que se realiza.
+
+%% convert conv.gif -coalesce img/conv/conv.png
+\begin{figure}[h]
+  \scalebox{0.7}{\animategraphics{3}{img/conv/conv-}{0}{8}}
+\caption{Convolución}
+\label{convolucion}
+\end{figure}
+
+Cada capa $l$ cuenta con $k_q^{(l)}$ mapas de características que se utiliza uno a uno para realizar la operación de convolución entre la capa $l$ y la capa $l-1$. En la capa $l-1$ podemos tener la imagen de entrada o el resultado de las capas previas. El resultado puede ser una capa de convolución o de una operación de sub muestraje que veremos  más adelante.
+
+\begin{figure}[h]
+  \scalebox{0.5}{\includegraphics{img/feature1.png}}
+\caption{Imagen de entrada y núcleo detector de características}
+\label{feature1}
+\end{figure}
+
+Los kernel nos sirven como filtros que resaltan características, como contornos o esquinas, en la figura \ref{kernels} se puede apreciar el efecto de aplicar distintos tipos de kernel y la forma como se resaltan ciertas características dependiendo del kernel. Se pueden resaltar contornos, curvas, esquinas y la combinación de dichas características componen un objeto. En el proceso se realiza una fase de extracción de características y luego se componen en la Red completamente conectada.
+
+Por cada kernel que se aplica a la entrada se genera un nuevo mapa de características y cada neurona del mapa de características comparte los mismos parámetros. Esta característica es importante para disminuir la complejidad del cálculo. Un mapa de características es el resultado de aplicar el mismo kernel para generar cada neurona y así reconocer características locales en la imagen. Cada mapa servirá para detectar distintas características que se combinan en las capas siguientes para reconocer características más complejas. Adicionalmente estas características se reconocen en cualquier lugar que se presenten dentro de la imagen, lo cual hace que la Capa de Convolución produzca un resultado invariante bajo traslaciones, cambios de escala, estiramiento o transformaciones geométricas.
+
+\begin{figure}[h]
+  \scalebox{0.9}{\includegraphics{img/kernels.png}}
+\caption{Efecto de los diferentes núcleos}
+\label{kernels}
+\end{figure}
+
+Dependiendo de los datos de entrada estos kernel se ajustan para captar características y en las capas siguientes se componen para identificar características más complejas. Es un proceso análogo al que se realiza con las Redes Neuronales donde las neuronas de las capas previas se combinan para identificar características más complejas en los datos. La gran diferencia es que en el caso de las Redes Neuronales Convolucionales se realiza un proceso de extracción de características locales a través de la aplicación de los kernel a la entrada y la generación de los mapas de características.
+
+\begin{figure}[h]
+  \scalebox{0.7}{\includegraphics{img/feature3.png}}
+\caption{Mapa de características}
+\label{feature3}
+\end{figure}
+
+Dado un kernel de tamaño $k_w\times k_h$ y un desplazamiento de tamaño $s=1$ y asumiendo que es el mismo desplazamiento en la dirección horizontal y vertical, una neurona localizada en la fila $i$ columna $j$ de una capa dada, está conectada a las salidas de las neuronas de la capa previa localizada en la fila $(i\times s)$ a $(i*s)+k_h-1$, columna $(j\times s)$ a $(j\times s)+k_w-1$, donde $k_w$ es el ancho del kernel y $k_h$ es la altura del kernel.
+
+\begin{figure}[h]
+  \scalebox{0.7}{\includegraphics{img/feature2.png}}
+\caption{Operación de convolución}
+\label{feature2}
+\end{figure}
+
+Si queremos obtener un mapa del mismo tamaño que el mapa de origen o entrada se agrega un relleno (padding) con ceros en el borde de la entrada. Si queremos obtener mapas más pequeños, entonces podemos cambiar el tamaño del desplazamiento y tomamos $s>1$, de esta forma también se reduce la dimensión.
+
+Cada kernel se aplica a la capa previa para generar los mapas de características, en la imagen \ref{feature4}, se puede apreciar cómo se aplica el kernel a cada mapa de características o a la imagen de entrada y se generan nuevos mapas de características basados en los diferentes kernel. El proceso de aprendizaje de la Red Neuronal Convolucional consiste en ajustar los kernel para que sean más eficaces en la generación de nuevos mapas de características.
+
+\begin{figure}[h]
+  \scalebox{0.7}{\includegraphics{img/feature4.png}}
+\caption{La capa de convolución genera un mapa de características}
+\label{feature4}
+\end{figure}
+
+El cálculo de cada neurona consiste en el producto de cada valor en una ventana del tamaño del kernel por el valor correspondiente en el kernel componente a componente. Sea $z_{(i,j,k)}^{l}$ el valor de la neurona en la fila $i$, columna $j$ y el mapa $k$ de la capa $l$, $k_w^{(l)}$ es el ancho del kernel, $k_h^{(l)}$ es la altura del kernel, $k_q^{(l)}$ la cantidad de mapas de características de la capa $l$, $s$ el desplazamiento y $b_k^{(l)}$ es el sesgo del mapa $k$ en la capa $l$.
+
+\begin{equation}
+z_{(i,j,k)}^{(l)} = \displaystyle \sum_{h=0}^{k_h-1}\sum_{v=0}^{k_w-1}\sum_{f=0}^{k_q^{(l-1)}-1} z_{([(i\times s)+h],[(j\times s)+v],[f])}^{l-1}\ \cdot\ w_{(u,v,f,k)}^{(l)} + b_k^{(l)} \label{convformula},
+\end{equation}
+
+Como hemos visto la imagen de entrada puede tener varias capas que representan la intensidad o valor de cada color primario de cada punto en la imagen. En la operación de convolución todos estos valores se combinan mediante la aplicación de los kernel para generar los mapas de características. Este hecho resalta debido a que en cada capa se está realizando un proceso de reducción o combinación de los datos, que es uno de los problemas que se desea resolver para hacer viable el ajuste de una Red Neuronal Convolucional.
+
+\begin{figure}[h]
+  \scalebox{1}{\animategraphics{3}{img/convlayer/convlayer-}{0}{7}}
+\caption{Capa de Convolución}
+\label{convlayer}
+\end{figure}
+
+Luego de realizar la operación de convolución, la capa siguiente puede ser una Capa de Convolución o una Capa de Sub muestraje. Las Capas de Convolución generan mapas de características y las Capas de Sub muestraje reducen la dimensión de los datos.
+
+Recordemos que las imágenes están compuestas por múltiples capas que representan los colores que se combinan en cada punto de la imagen o en el caso de imágenes satelitales pueden haber más capas que representan la captura de otras frecuencias, como la infraroja.
+
+Luego de la operación de convolución, se genera un mapa de características, dependiendo de los valores de los hiperparámetros la dimensión del mapa de características varía. Asumiendo que la entrada y el kernel sean cuadrados, sea $d^{(l-1)}$ la dimensión de la capa $l-1$, que es la entrada, $k_h^{(l)}=k_v^{(l)}$ la dimensión del kernel, $p^{(l)}$ el relleno y $s^{(l)}$ el desplazamiento en la capa $l$. La fórmula para calcular la dimensión resultante del mapa de características de la capa $l$, $d^{(l)}$, es la siguiente,
+
+\begin{equation}
+d^{(l)} = \bigg[\frac{d^{(l-1)}+(2\times p^{(l)})-k_h^{(l)}}{s^{(l)}}\bigg]+1,
+\label{DimOfFeaureMap}
+\end{equation}
+
+donde el operador $[x]$ denota la parte entera de $x$.
+
+Por ejemplo, si la entrada es de dimensión $5\times 5$ y le aplicamos un kernel de dimensión $3\times 3$ y el desplazamiento es $1$, sin relleno, nos queda un mapa de características de dimensión $3\times 3$.
+
+Siendo $n^{(l)}$ la cantidad de neuronas de la capa $l$, la fórmula para obtener $n^{(l)}$ es la siguiente,
+
+\begin{equation}
+n^{(l)} = [d^{(l)}]^2\times k_q^{(l)}.
+\label{neuronas}
+\end{equation}
+
+Sea $w^{(l)}$ la cantidad de parámetros de la capa $l$, $k_h^{(l)}$ y $k_v^{(l)}$ el ancho y el alto del kernel y $k_q^{(l)}$ la cantidad de mapas de características en la misma capa, la cantidad de parámetros de cada Capa de Convolución se calcula mediante la fórmula siguiente,
+
+\begin{equation}
+w^{(l)} = [k_h^{(l)}\times k_v^{(l)}\times k_q^{(l-1)}+1]\times k_q^{(l)}.
+\label{parametros}
+\end{equation}
+
+Se puede notar que se suma $1$ para considerar el sesgo y se considera la cantidad de mapas de características de la capa anterior.
+
+Para generar la invarianza del método también se reduce la dimensión de los datos y así evitar que la posición sea relevante, para ello se implementa la Capa de Sub muestraje.
+
+\subsection{Capa de Sub muestraje}
+
+En la Capa de Sub muestraje o pooling se realiza una operación simple para reducir la dimensión de los datos. El propósito es reducir la carga computacional, el uso de memoria y el número de parámetros y este hecho en consecuencia contribuye en limitar el riesgo de sobre ajuste del modelo al disminuir el número de parámetros.
+
+En la imagen \ref{pool} se puede ver que el tamaño se reduce a la mitad si aplicamos la operación de Sub muestraje con un kernel de $2\times 2$ donde $k_h=2$, $k_v=2$, $s=2$ y $p=1$.
+
+\begin{figure}[h]
+  \scalebox{0.5}{\includegraphics{img/pool.jpeg}}
+\caption{Sub muestraje}
+\label{pool}
+\end{figure}
+
+En esta capa se define el tamaño de la ventana sobre la cual se toma un valor que pasa a la capa siguiente. Es decir, se realiza un barrido sobre los mapas de características utilizando una ventana de un tamaño fijo y se toma una valor que va a representar la información de la ventana.
+
+Cada neurona de una capa está relacionada con un conjunto de neuronas de la capa previa localizadas en la ventana que se define. Esto permite relacionar la información adjacente o local, lo cual permite reconocer patrones. Los hiperparámetros de la Capa de Sub muestraje son: el tamaño de la ventana o campo receptor, el desplazamiento y el tipo de relleno. La capa no genera nuevos parámetros, sólo utiliza una función que genera un valor representativo de cada ventana de recepción y se descarta el resto de la información.
+
+\begin{figure}[h]
+  \scalebox{0.5}{\includegraphics{img/pooling.jpeg}}
+\caption{Sub muestraje por máximo o por promedio}
+\label{pooling}
+\end{figure}
+
+Principalmente se utilizan dos formas para realizar la operación de reducción de la dimensión o Sub muestraje, Sub muestraje por máximo (max pooling) o Sub muestraje por promedio (average pooling). Como se puede ver en la imagen \ref{pooling} y considerando una ventana de $2\times 2$ y un desplazamiento $s=2$, en el primer caso se toma el valor máximo de la ventana y en el segundo caso se toma el promedio de los cuatro valores. Sólo el valor máximo de la ventana de recepción pasa a la capa siguiente o en otro caso sólo el promedio sigue a la capa siguiente, el resto de la información en la ventana se descarta.
+
+\begin{figure}[h]
+  \scalebox{0.6}{\animategraphics{3}{img/maxpoolingsindezplazamiento/maxpoolingsindezplazamiento-}{0}{8}}
+\caption{Sub muestraje por máximo sin dezplazamiento}
+\label{maxpoolingsindezplazamiento}
+\end{figure}
+
+Es evidente la pérdida de información en una capa de esta naturaleza. Para reducir aun más la cantidad de información que pasa a la capa siguiente también se puede definir el desplazamiento. El recorrido de la ventana sobre cada mapa de características se puede realizar con un desplazamiento $1$ a $1$ como se puede ver en la imagen \ref{maxpoolingsindezplazamiento}.
+
+\begin{figure}[h]
+  \scalebox{0.9}{\includegraphics{img/maxpool.jpeg}}
+\caption{Sub muestraje por máximo}
+\label{maxpooling}
+\end{figure}
+
+Para reducir la dimensión aún más, se puede realizar el recorrido con desplazamiento. En la figura \ref{maxpooling} se ver un ejemplo del cálculo y el efecto de reducir la dimensión a un cuarto, de una matriz de $4\times 4$ generamos una matriz de $2\times 2$ luego de la operación de Sub muestraje.
+
+\subsubsection{Ajuste de las Redes Neuronales Convolucionales}
+
+El ajuste se realiza mediante el método de propagación reversa similar al método aplicado a las Redes Neuronales Multicapa, con la diferencia de que se deben propagar los gradientes a las neuronas que sobreviven a las Capas de Convolución y Sub muestraje.
+
+Recordemos que cada neurona en un Red Neuronal Convolucional está relacionada con un kernel que comparte los parámetros con todas las neuronas del mapa de características al cual la neurona pertenece. Es por ello que al realizar la propagación reversa sólo se deben actualizar los gradientes de las neuronas que sobreviven.
+
+\subsection{Arquitectura de las Redes Neuronales Convolucionales}
+
+Las Redes Neuronales Convolucionales consisten en arquitecturas de capas que combinan las operaciones de convolución y sub muestraje en varias capas para luego alimentar una red neuronal completamente conectada. Se puede visualizar como un proceso de extracción de características, combinación de características, estimación y ajuste.
+
+El trabajo realizado por LeCun et al. en \cite{lecun-98} y \cite{LecunNet} representa un avance fundamental en el diseño y entrenamiento de las Redes Neuronales Convolucionales Profundas para procesar imágenes. La entrada de LeNet5 consiste en una imagen que representa un dígito escrito a mano centrado y normalizado. Cada neurona en una capa está relacionada con un conjunto de neuronas que están en una vecindad de la capa previa, así se preserva la estructura de la imagen. Esta idea proviene de los trabajo de Hubel y Wiesel en \cite{hubelwiesel} y consiste en la existencia de campos de recepción visual especializados que detectan características, esquinas y bordes y estas características luego se combinan para conformar figuras más complejas.
+
+\begin{figure}[h]
+  \scalebox{0.9}{\includegraphics{img/LeNet.png}}
+\caption{Arquitectura de LeNet5}
+\label{LeNet5}
+\end{figure}
+
+El resultado del proceso de clasificación mediante el uso de una Red Neuronal Convolucional para clasificar dígitos escritos a mano se aprecia en \ref{LeNetAnim}. Se puede ver que hay una imagen de entrada, cada capa aplica la operación de convolución y sub muestraje en el proceso de entrenamiento. Una Red ya ajustada genera las probabilidades de pertenercer a alguna de las $10$ clases y se toma la mayor como el resultado inferido por la Red.
+
+\begin{figure}[h]
+  \scalebox{0.8}{\animategraphics{3}{img/asamples/asamples-}{0}{36}}
+\caption{Resultado de LeNet5}
+\label{LeNetAnim}
+\end{figure}
+
+En la arquitectura se puede apreciar como aumenta la cantidad de mapas de características, $k_q$, en la medida que se reduce la dimensión de los datos mediante la operación de convolución y sub muestraje con desplazamiento y relleno respectivamente. La idea es que los mapas sintenizan las características presentes en las imágenes. La combinación de Capas de Convolución y Capas de Sub muestraje se inspiran en los trabajos de Hubel y Wiesel en \cite{hubelwiesel} donde se realiza el planteamiento de la existencia de neuronas que se activan con figuras o estímulos simples y otras se activan con figuras o estímulos complejas. LeCun indica que se puede lograr un alto grado de invarianza ante transformaciones geométricas de la entrada con la reducción espacio temporal de la entrada que se compensa con el incremento de los mapas de características.
+
+\begin{table}[htb]
+\centering
+\begin{tabular}{|l|c|c|c|c|c|c|}
+\hline
+\multicolumn{7}{|c|}{Arquitectura de LeNet5} \\ \hline
+Capa & Nombre & $k_q$ & Tamaño & $k_h\times k_v$ & $s$ & Activación  \\
+\hline \hline
+Entrada & Imagen & 1 & 32x32x1 & - & - & - \\ \hline
+1  & Convolución & 6 & 28x28x6 & 5x5 & 1 & tanh \\ \hline
+   & Sub muestraje por promedio & 6 & 14x14x6 & 2x2 & 2 & tanh \\ \hline
+2  & Convolución & 16 & 10x10x16 & 5x5 & 1 & tanh \\ \hline
+   & Sub muestraje por promedio & 16 & 5x5x16 & 2x2 & 2 & tanh \\ \hline
+3  & Convolución & 120 & 1x1x120 & 5x5 & 1 & tanh \\ \hline
+4  & Completamente conectadas  & - & 84 & - & - & tanh \\ \hline
+Salida & Completamente conectadas & - & 10 & - & - & RBF \\ \hline
+\end{tabular}
+\caption{Arquitectura de LeNet5}
+\label{LeNet5table}
+\end{table}
+
+
+\subsection{Arquitecturas recientes}
+
+Gran parte del desarrollo reciente en el reconocimiento de patrones en imágenes mediante el uso de Redes Neuronales Convolucionales Profundas se debe a la competencia promovida por el Stanford Vision Lab que utiliza ImageNet como datos de entrenamiento denominada ILSVRC (ImageNet Large Scale Visual Recognition Challenge).
+
+En la ILSVRC se evaluan los algoritmos para detección de objetos y clasificación de imágenes a gran escala. La idea general es permitir que los investigadores comparen sus avances en la detección de objetos utilizando una gran variedad de conceptos y aprovechando el esfuerzo que se realizó en la recolección y etiquetado de ImageNet.
+
+Como se describe en \href{http://image-net.org}{http://image-net.org}, ImageNet es una base de datos de imágenes organizadas siguiendo la jerarquía de WordNet. Cada concepto se agrupa en conjuntos de sinónimos cognitivos, distinguiendo así un concepto. WordNet es una base de datos que se utiliza en actividades de procesamiento de lenguaje natural.
+
+Existen más de 100 mil conjuntos de sinónimos de los cuales la mayoría (más de 80 mil) son nombres. Cada grupo cuenta con un promedio de 1000 imágenes representativas. ImageNet pretende proveer una base de datos que represente todos los conceptos en la jerarquía de WordNet.
+
+\subsubsection{AlexNet 2012}
+
+El avance más importante y que genera mayor interés en las Redes Neuronales Convolucionales Profundas es AlexNet en el 2012. Esta red se entrena con los datos de la competencia promovida por \href{http://www.image-net.org}{ImageNet}. El trabajo está detallado en \cite{AlexNet} y la descripción que realizan los autores es la siguiente:
+
+\begin{quotation}
+Hemos entrenado una gran Red Neuronal Convolucional Profunda para clasificar 1.2 millones de imágenes de alta resolución, en la competencia ImageNet LSVRC-2010, en 1000 clases diferentes. En los datos de prueba hemos alcanzado el primer lugar y el quinto lugar con tasas de error de 37.5\% y 17\%, las cuales son considerablemente mejores que el estado del arte. La Red Neuronal cuanta con 60 millones de parámetros y 650 mil neuronas que consisten de cinco (5) Capas de Convolución, algunas de las cuales están seguidas de Capas de Sub muestraje por máximo y tres capas completamente conectadas a una capa softmax de 1000 clases. Para acelerar el entrenamiento, se utilizan neuronas que no se saturan y una implementación muy eficiente de las capas de convolución en GPU. Para reducir el sobreajuste en las capas completamente conectadas utilizamos un método de regularización desarrollado recientemente denominado descarte (dropout), que ha probado ser bien efectivo. Participamos en la ILSVRC-2012 con una variante de este modelo y alcanzamos el primer lugar con una tasa de error de 15.3\% comparada con 26.2\% alcanzada por el segundo lugar.
+\end{quotation}
+
+Los avances más importantes de AlexNet se resumen en el uso de ReLU como función de activación para evitar la saturación de las neuronas y el uso de tarjetas de video, en particular la programación de múltiples unidades de procesamiento gráfico (GPU) para acelerar el entrenamiento de la Red.
+
+\begin{figure}[h]
+  \scalebox{1}{\includegraphics{img/AlexNet.png}}
+\caption{AlexNet}
+\label{AlexNetimage}
+\end{figure}
+
+En \cite{AlexNet}, la arquitectura es descrita de la forma siguientes,
+\begin{quotation}
+La arquitectura de la Red Neuronal Convolucional, como se puede apreciar en la figura \ref{AlexNetimage}, cuenta con ocho (8) capas con parámetros. Las primeras cinco (5) son Capas de Convolución y tres (3) son de una Red Neuronal completamente conectada.
+
+Al resultado de la última capa se le aplica la función softmax para producir una clasificación de mil (1000) clases. La Red maximiza la función de regresión logística multinomial, que es equivalente a maximizar la media del logaritmo de la probabilidad de los datos observados bajo la distribución de predicción de los datos de prueba.
+
+Los kernel de la segunda, cuarta y quinta Capas de Convolución se conectan sólamente a aquellos mapas de características de la capa previa que fueron calculadas con el mismo GPU. Los kernel de la tercera Capa de Convolución están conectados a todos los mapas de características de la segunda capa. Las neuronas de las capas completamente conectadas están conectadas a todas las neuronas en la capa previa. Las respuestas de la primera y segunda Capa de Convolución se normalizan. Las Capas de Sub muestraje por el máximo, se aplican a la primera primera, segunda y quinta Capa de Convolución.
+
+La función de activación ReLU se aplica a la salida de cada Capa de Convolución y a cada capa completamente conectada. La primera Capa de Convolución procesa la imagen de dimensión $227\times 227\times 3$ con 96 kernel de tamaño $11\times 11\times 3$ con un desplazamiento de 4 (esta es la distancia entre los centros de los kernel de neuronas adjacentes en el mapa de características). La segunda Capa de Convolución toma como entrada (después de normalizar y realizar el sub muestraje) la salida de la primera Capa de Convolución y la procesa con $256$ kernel de dimensión $5\times 5\times 48$. La tercera, cuarta y quinta Capa de Convolución están conectadas directamente sin realizar ningún proceso de normalización y sub muestraje. La tercera Capa de Convolución tiene $384$ kernel de dimensión $3\times 3\times 256$ conectado al resultado, normalizado y reducido por sub muestraje, de la segunda Capa de Convolución. La cuarta Capa de Convolución cuenta con $384$ kernel de dimensión $3\times 3\times 192$ y la quinta Capa de Convolución tiene $256$ kernel de tamaño $3\times 3\times 192$. Las capas completamente conectadas tienen 4096 neuronas cada una.
+\end{quotation}
+
+La dimensión de cada mapa de características se calcula mediante la fórmula \ref{DimOfFeaureMap}, en la imagen \ref{AlexNetDims} se puede ver el proceso de cálculo capa por capa.
+
+\begin{figure}[h]
+  \scalebox{0.8}{\includegraphics{img/AlexNetDims.png}}
+\caption{Dimensiones de cada capa en AlexNet}
+\label{AlexNetDims}
+\end{figure}
+
+En el cuadro \ref{alexnet} se puede ver el detalle de la arquitectura y los hiperparámetros de la red.
+
+\begin{table}[htb]
+\centering
+\begin{tabular}{|l|c|c|c|c|c|c|}
+\hline
+\multicolumn{7}{|c|}{Arquitectura de AlexNet} \\ \hline
+Capa & Nombre & $k_q$ & Tamaño & $k_h\times k_v$ & $s$ & Activación  \\
+\hline \hline
+Entrada & Imagen & 1 & 227x227x3 & - & - & - \\ \hline
+1  & Convolución & 96 & 55x55x96 & 11x11 & 4 & relu \\ \hline
+   & Sub muestraje por máximo & 96 & 27x27x96 & 3x3 & 2 & relu \\ \hline
+2  & Convolución & 256 & 27x27x256 & 5x5 & 1 & relu \\ \hline
+   & Sub muestraje por máximo & 256 & 13x13x256 & 3x3 & 2 & relu \\ \hline
+3  & Convolución & 384 & 13x13x384 & 3x3 & 1 & relu \\ \hline
+4  & Convolución & 384 & 13x13x384 & 3x3 & 1 & relu \\ \hline
+5  & Convolución & 256 & 13x13x256 & 3x3 & 1 & relu \\ \hline
+   & Sub muestraje por máximo  & 256 & 6x6x256 & 3x3 & 2 & relu \\ \hline
+6  & Completamente conectadas  & - & 9216 & - & - & relu \\ \hline
+7  & Completamente conectadas  & - & 4096 & - & - & relu \\ \hline
+8  & Completamente conectadas & - & 4096 & - & - & relu \\ \hline
+Salida & Completamente conectadas & - & 1000 & - & - & Softmax \\ \hline
+\end{tabular}
+\caption{Arquitectura de AlexNet}
+\label{alexnet}
+\end{table}
+
+Esta arquitectura representa un gran avance debido a aspectos como la selección de la función de activación, que se vienen estudiando desde finales de los años 80, en la literatura previa al 2012 como \cite{scalinglearning}, todavía aparece el uso de $tanh$ que se satura para valores grandes. Este pequeño cambio permitió la convergencia de estas redes con la ventaja de la simplificación de los cálculos, dándo relevancia al estudio de funciones de activación que no se saturan como ReLU y Leaky ReLU.
+
+\begin{figure}[h]
+  \scalebox{0.7}{\includegraphics{img/sigmoidderivative.png}}
+\caption{Sigmoide y su derivada}
+\label{sigmoidderivative}
+\end{figure}
+
+Recordemos que si $\sigma(x)$ representa la sigmoide entonces su derivada es,
+$$\sigma(x)'=\sigma(x)(1-\sigma(x))$$.
+La saturación de una neurona consiste en que para ciertos valores la derivada de la función de activación se anula. En la imagen \ref{sigmoidderivative} se puede apreciar que para valores altos o bajos la sigmoide es $0$ o $1$ y la derivada es muy cercana a cero. Cuando se realiza el proceso de ajuste y se utiliza la derivada de la función de activación, no hay nada que propagar.
+
+En el caso de la tangente hiperbólica, su derivada es,
+$$tanh(x)'=1-tanh(x)^2$$,
+y ocurre una situación similar como se puede ver en \ref{tanhderivative}. Este comportamiento se evita mediante el uso de funciones de activación como ReLU en AlexNet.
+
+\begin{figure}[h]
+  \scalebox{0.7}{\includegraphics{img/tanh_and_gradient.jpg}}
+\caption{Tanh y su derivada}
+\label{tanhderivative}
+\end{figure}
+
+A continuación una descripción de las arquitecturas que ganan la competencia de la ILSVRC desde el 2013 al 2015, siguiendo algunas notas del \href{http://cs231n.github.io/convolutional-networks/}{curso sobre Redes Convolucionales del MIT dictado por Andrej Karpathy} en \cite{MITAndrej}.
+
+\subsection{ZF Net 2013}
+En el año 2013 el ganador de la competencia ILSVRC 2013 es el equipo compuesto por Matthew Zeiler y Rob Fergus. La red se denominó ZFNet por las siglas de los nombres de los autores. Esta red es una modificación de AlexNet, se realizan cambios en los hiperparámetros, en particular se engrandece el tamaño de las Capas de Convolución intermedias y haciendo el desplazamiento y el tamaño de los kernel más pequeños. El error pasó de 15,3\% a 11,2\%.
+
+\subsection{GoogLeNet 2014}
+En el 2014, en la competencia de la ILSVRC el error pasa de 11,2\% a 6,7\% mediante una Red Convolucional hecha por el equipo de Szegedy de Google. Su principal contribución fué el desarrollo del modulo denominado Inception que reduce los parámetros significativamente. Pasa a ser 4 millones de parámetros y AlexNet cuenta con 60 millones de parámetros. Adicionalmente se utiliza sub muestraje por promedio. Esta red ha generado nuevas versiones conocidas por el nombre Inception en sus distintas versiones.
+
+\subsection{VGGNet 2014}
+En el mismo año 2014 el error pasa a ser de 11,2\% a 7,3\% con el equipo de Karen Simonyan y Andrew Zisserman y la red es conocida como VGGNet. Su principal contribución fue mostrar que la profundidad de la red es importante para su buen desempeño. La arquitectura final tiene 16 Capas de Convolución con hiperparámetros homogéneos con kernel de $3\times 3$ y sub muestraje de $2\times 2$. La desventaja es la cantidad de parámetros y memoria, consumiendo cerca de 140 millones.
+
+\subsection{ResNet 2015}
+\label{chap:resnet}
+Finalmente en 2015 gana la competencia el equipo de Kaiming He y el error pasa de  6,7\% a 3,57\%.
+La arquitectura utiliza conexiones de salto y normalización por lotes. Además no se utilizan capas completamente conectadas al final de la arquitectura.
+
+Cabe destacar que el error humano en la clasificación de las imágenes es de 5,1\% que se supera finalmente con ResNet en el 2015.
+
+\subsection{Otros modelos}
+
+Se han desarrollado muchos módelos con técnicas más avanzadas que las expuestas en este trabajo. En la \href{https://keras.io}{documentación de keras} podemos conseguir una lista de \href{https://keras.io/applications/}{modelos pre entrenados} que se pueden utilizar como punto de partida para desarrollar soluciones a problemas en la industria.
+
+\begin{figure}[h]
+  \scalebox{0.7}{\includegraphics{img/pretrained.png}}
+\caption{Modelos pre entrenados con Keras}
+\label{pretrained}
+\end{figure}
+
+En la lista \ref{pretrained} de ambientes de desarrollo pre entrenados podemos ver cuanta memoria requieren sólamente los parámetros del modelo y van de un rango de 14Mb a 550Mb y de 23 capas a 572 con un máximo de 82\% de exactitud en Top-1 y 96\% en Top-5. Este tipo de requerimientos nos indica que se requieren sistemas medianamente complejos para realizar inferencias con los modelos pre entrenados.
+En particular llama la atención el modelo MobileNetV2 que requiere apenas 14Mb para cargar los parámetros del modelo y de esta manera realizar actividades de inferencia con imágenes en un dispositivo móvil inteligente.
+
+\begin{figure}[h]
+  \scalebox{0.7}{\includegraphics{img/tesla.png}}
+\caption{Hardware para el Piloto Automático de un Carro Tesla}
+\label{tesla}
+\end{figure}
+
+Se vienen desarrollando soluciones en Hardware para acelerar el procesamiento de imágenes en tiempo real para aplicaciones de misión crítica. El Piloto Automático de Tesla utiliza un nuevo Hardware NVIDIA, como el de la imagen \ref{tesla}, para procesar la imágenes generadas por 8 cámaras y utiliza un modelo basado en Inception v1. De esta manera se realizan las actividades de inferencia necesarias para el manejo autónomo como, detección de señales, semáforos, vías, vecindad, obstáculos, peatones, entre otros.
+
+Cabe destacar que la implementación de nuevos modelos puede partir de los modelos pre entrenados y desde estos construir soluciones. Es costoso en tiempo y dinero entrenar estas redes, ya que ameritan recursos de memoria y computacionales que se pueden ahorrar mediante el uso de modelos pre entrenados.
+
+
+
+

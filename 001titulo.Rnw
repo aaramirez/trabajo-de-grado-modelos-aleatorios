@@ -1,0 +1,67 @@
+% !Rnw root = 000proyecto.Rnw
+
+\thispagestyle{empty}
+
+\begin{center}
+
+\vspace*{-1.5cm}
+
+\scalebox{.3}{\includegraphics{img/ucv.eps}}
+
+\vspace{.5cm}
+
+\begin{small}
+UNIVERSIDAD CENTRAL DE VENEZUELA
+
+\vspace{-0.1cm}
+
+FACULTAD DE CIENCIAS
+
+\vspace{-0.1cm}
+
+ESCUELA DE MATEMÁTICA
+
+\vspace{-0.1cm}
+
+MAESTRÍA EN MODELOS ALEATORIOS
+
+\vspace{-0.1cm}
+
+\end{small}
+
+\vspace{2cm}
+
+\begin{Huge}
+
+\begin{center}
+\large{\bf ESTUDIO DE LOS MÉTODOS DE APRENDIZAJE ESTADÍSTICO PROVISTOS POR AMAZON WEB SERVICES E IMPLEMENTACIÓN DE REDES NEURONALES CONVOLUCIONALES PARA EL RECONOCIMIENTO DE PATRONES VISUALES CON AMAZON DEEPLENS}
+\end{center}
+
+\end{Huge}
+
+\end{center}
+
+\vspace{2cm}
+
+\hspace{6cm}
+\begin{minipage}[t]{9cm}
+
+Trabajo de Grado de Maestría presentado ante la ilustre Universidad Central de Venezuela por el
+\textbf{Ing. Alexander A. Ramírez M.} para optar al título de \textbf{Magister Scientiarum Mención Modelos Aleatorios}
+
+\
+
+\textbf{Tutor: Dr. Ricardo Ríos.}
+
+\end{minipage}
+
+
+
+\vspace{1.5cm}
+
+\begin{center}
+Caracas, Venezuela \\
+Octubre - 2019
+\end{center}
+
+\newpage
