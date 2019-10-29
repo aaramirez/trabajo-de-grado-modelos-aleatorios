@@ -243,7 +243,7 @@ El resultado del proceso de clasificación mediante el uso de una Red Neuronal C
 \label{LeNetAnim}
 \end{figure}
 
-En la arquitectura se puede apreciar como aumenta la cantidad de mapas de características, $k_q$, en la medida que se reduce la dimensión de los datos mediante la operación de convolución y sub muestraje con desplazamiento y relleno respectivamente. La idea es que los mapas sintenizan las características presentes en las imágenes. La combinación de Capas de Convolución y Capas de Sub muestraje se inspiran en los trabajos de Hubel y Wiesel en \cite{hubelwiesel} donde se realiza el planteamiento de la existencia de neuronas que se activan con figuras o estímulos simples y otras se activan con figuras o estímulos complejas. LeCun indica que se puede lograr un alto grado de invarianza ante transformaciones geométricas de la entrada con la reducción espacio temporal de la entrada que se compensa con el incremento de los mapas de características.
+En la arquitectura se puede apreciar como aumenta la cantidad de mapas de características, $k_q$, en la medida que se reduce la dimensión de los datos mediante la operación de convolución y sub muestraje con desplazamiento y relleno respectivamente. La idea es que los mapas sintenizan las características presentes en las imágenes. La combinación de Capas de Convolución y Capas de Sub muestraje se inspiran en los trabajos de Hubel y Wiesel en \cite{hubelwiesel} donde se realiza el planteamiento de la existencia de neuronas que se activan con figuras o estímulos simples y otras se activan con figuras o estímulos complejos. LeCun indica que se puede lograr un alto grado de invarianza ante transformaciones geométricas de la entrada con la reducción espacio temporal de la entrada que se compensa con el incremento de los mapas de características.
 
 \begin{table}[htb]
 \centering
@@ -292,11 +292,11 @@ Los avances más importantes de AlexNet se resumen en el uso de ReLU como funci�
 \label{AlexNetimage}
 \end{figure}
 
-En \cite{AlexNet}, la arquitectura es descrita de la forma siguientes,
+En \cite{AlexNet}, la arquitectura es descrita de la forma siguiente,
 \begin{quotation}
 La arquitectura de la Red Neuronal Convolucional, como se puede apreciar en la figura \ref{AlexNetimage}, cuenta con ocho (8) capas con parámetros. Las primeras cinco (5) son Capas de Convolución y tres (3) son de una Red Neuronal completamente conectada.
 
-Al resultado de la última capa se le aplica la función softmax para producir una clasificación de mil (1000) clases. La Red maximiza la función de regresión logística multinomial, que es equivalente a maximizar la media del logaritmo de la probabilidad de los datos observados bajo la distribución de predicción de los datos de prueba.
+Al resultado de la última capa se le aplica la función softmax para producir una clasificación en mil (1000) clases. La Red maximiza la función de regresión logística multinomial, que es equivalente a maximizar la media del logaritmo de la probabilidad de los datos observados bajo la distribución de predicción de los datos de prueba.
 
 Los kernel de la segunda, cuarta y quinta Capas de Convolución se conectan sólamente a aquellos mapas de características de la capa previa que fueron calculadas con el mismo GPU. Los kernel de la tercera Capa de Convolución están conectados a todos los mapas de características de la segunda capa. Las neuronas de las capas completamente conectadas están conectadas a todas las neuronas en la capa previa. Las respuestas de la primera y segunda Capa de Convolución se normalizan. Las Capas de Sub muestraje por el máximo, se aplican a la primera primera, segunda y quinta Capa de Convolución.
 
